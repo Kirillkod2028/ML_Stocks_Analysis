@@ -1,0 +1,51 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# requirements.txt
+# MOEX ML Dataset Builder — прогноз max-5d роста акций
+# Установка: pip install -r requirements.txt
+# Python: >= 3.11  (используется синтаксис X | Y для Union-типов)
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Async HTTP (ISS MOEX API) ─────────────────────────────────────────────────
+aiohttp>=3.9.1               # async HTTP client; TCPConnector + семафор
+                             # синхронный fallback НЕ нужен: весь I/O через aiohttp
+
+# ── Data processing ───────────────────────────────────────────────────────────
+pandas>=2.1.0                # DataFrame, groupby, rolling, ewm
+numpy>=1.26.0                # vectorized math, clip, exp, log
+scipy>=1.11.0                # spearmanr (IC-метрики)
+
+# ── Parquet storage ───────────────────────────────────────────────────────────
+pyarrow>=14.0.0              # движок parquet + snappy compression
+                             # (fastparquet — альтернатива, но хуже совместим)
+
+# ── Progress bars ─────────────────────────────────────────────────────────────
+tqdm>=4.66.0                 # tqdm.asyncio.tqdm.gather — async progress bar
+
+# ── ML ────────────────────────────────────────────────────────────────────────
+scikit-learn>=1.4.0          # Ridge, ElasticNet, HuberRegressor, Pipeline,
+                             # SimpleImputer, StandardScaler
+lightgbm>=4.3.0              # LGBMRegressor (нелинейный baseline)
+optuna>=3.6.0                # байесовский поиск гиперпараметров (TPESampler)
+
+# ── Visualization ─────────────────────────────────────────────────────────────
+matplotlib>=3.8.0
+seaborn>=0.13.0
+
+# ── Serialization ─────────────────────────────────────────────────────────────
+joblib>=1.3.0                # сохранение sklearn Pipeline (pickle wrapper)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Опциональные зависимости
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Jupyter-ноутбук (train_models.py → train_models.ipynb):
+#   jupytext>=1.16.0         # jupytext --to notebook train_models.py
+
+# Запуск в Jupyter (если event loop уже запущен):
+#   nest-asyncio>=1.6.0      # nest_asyncio.apply(); asyncio.run(...)
+
+# Ускорение pandas на pandas >= 2.x:
+#   numba>=0.59.0            # опционально ускоряет некоторые rolling-операции
+
+# Профилирование скорости загрузки:
+#   aiohttp-retry>=2.8.3     # более гибкие стратегии retry (не обязателен)

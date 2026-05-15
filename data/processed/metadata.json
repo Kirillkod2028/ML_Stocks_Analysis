@@ -1,0 +1,459 @@
+{
+  "generated": "2026-05-15T01:56:13",
+  "cleaning_rules": {
+    "dropped_columns": [
+      "Beta_USDRUB_60d"
+    ],
+    "dte_ex_days_fill": 999,
+    "no_dividend_tickers": [
+      "AGRO",
+      "FEES",
+      "FIXP",
+      "OZON",
+      "PIKK"
+    ],
+    "added_columns": [
+      "has_dividends"
+    ]
+  },
+  "datasets": {
+    "market/dataset_market.parquet": {
+      "source": "datasets/market/dataset_market.parquet",
+      "destination": "data/processed/market/dataset_market.parquet",
+      "rows": 31190,
+      "cols": 50,
+      "date_start": "2022-08-01",
+      "date_end": "2026-05-06",
+      "nan_remaining": {
+        "R63": 71,
+        "R126": 193,
+        "R12_1": 548,
+        "TSMOM": 71,
+        "dist_52w_high": 545,
+        "vol_of_vol_60d": 101,
+        "ADV_ratio_5_60": 61,
+        "Beta_IMOEX_60d": 63,
+        "IVOL_60d": 63
+      }
+    },
+    "sectors/dataset_BUILD.parquet": {
+      "source": "datasets/sectors/dataset_BUILD.parquet",
+      "destination": "data/processed/sectors/dataset_BUILD.parquet",
+      "rows": 1911,
+      "cols": 50,
+      "date_start": "2022-08-01",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "sectors/dataset_ENERGY.parquet": {
+      "source": "datasets/sectors/dataset_ENERGY.parquet",
+      "destination": "data/processed/sectors/dataset_ENERGY.parquet",
+      "rows": 2835,
+      "cols": 50,
+      "date_start": "2022-08-01",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "sectors/dataset_IT.parquet": {
+      "source": "datasets/sectors/dataset_IT.parquet",
+      "destination": "data/processed/sectors/dataset_IT.parquet",
+      "rows": 1347,
+      "cols": 50,
+      "date_start": "2022-08-01",
+      "date_end": "2026-05-06",
+      "nan_remaining": {
+        "TSMOM": 33
+      }
+    },
+    "sectors/dataset_MOEXCN.parquet": {
+      "source": "datasets/sectors/dataset_MOEXCN.parquet",
+      "destination": "data/processed/sectors/dataset_MOEXCN.parquet",
+      "rows": 2600,
+      "cols": 50,
+      "date_start": "2022-08-01",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "sectors/dataset_MOEXFN.parquet": {
+      "source": "datasets/sectors/dataset_MOEXFN.parquet",
+      "destination": "data/processed/sectors/dataset_MOEXFN.parquet",
+      "rows": 4087,
+      "cols": 50,
+      "date_start": "2022-08-01",
+      "date_end": "2026-05-06",
+      "nan_remaining": {
+        "R63": 38,
+        "R126": 97,
+        "R12_1": 217,
+        "TSMOM": 38,
+        "dist_52w_high": 216,
+        "vol_of_vol_60d": 53,
+        "ADV_ratio_5_60": 33,
+        "Beta_IMOEX_60d": 34,
+        "IVOL_60d": 34
+      }
+    },
+    "sectors/dataset_MOEXMM.parquet": {
+      "source": "datasets/sectors/dataset_MOEXMM.parquet",
+      "destination": "data/processed/sectors/dataset_MOEXMM.parquet",
+      "rows": 5674,
+      "cols": 50,
+      "date_start": "2022-08-01",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "sectors/dataset_MOEXOG.parquet": {
+      "source": "datasets/sectors/dataset_MOEXOG.parquet",
+      "destination": "data/processed/sectors/dataset_MOEXOG.parquet",
+      "rows": 7461,
+      "cols": 50,
+      "date_start": "2022-08-01",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "sectors/dataset_MOEXTL.parquet": {
+      "source": "datasets/sectors/dataset_MOEXTL.parquet",
+      "destination": "data/processed/sectors/dataset_MOEXTL.parquet",
+      "rows": 1886,
+      "cols": 50,
+      "date_start": "2022-08-01",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "sectors/dataset_OTHER.parquet": {
+      "source": "datasets/sectors/dataset_OTHER.parquet",
+      "destination": "data/processed/sectors/dataset_OTHER.parquet",
+      "rows": 3389,
+      "cols": 50,
+      "date_start": "2022-08-01",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_AFLT.parquet": {
+      "source": "datasets/tickers/dataset_AFLT.parquet",
+      "destination": "data/processed/tickers/dataset_AFLT.parquet",
+      "rows": 894,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_AGRO.parquet": {
+      "source": "datasets/tickers/dataset_AGRO.parquet",
+      "destination": "data/processed/tickers/dataset_AGRO.parquet",
+      "rows": 534,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2024-11-25",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_ALRS.parquet": {
+      "source": "datasets/tickers/dataset_ALRS.parquet",
+      "destination": "data/processed/tickers/dataset_ALRS.parquet",
+      "rows": 884,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_BSPB.parquet": {
+      "source": "datasets/tickers/dataset_BSPB.parquet",
+      "destination": "data/processed/tickers/dataset_BSPB.parquet",
+      "rows": 871,
+      "cols": 50,
+      "date_start": "2022-10-28",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_CHMF.parquet": {
+      "source": "datasets/tickers/dataset_CHMF.parquet",
+      "destination": "data/processed/tickers/dataset_CHMF.parquet",
+      "rows": 885,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_FEES.parquet": {
+      "source": "datasets/tickers/dataset_FEES.parquet",
+      "destination": "data/processed/tickers/dataset_FEES.parquet",
+      "rows": 885,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_FIXP.parquet": {
+      "source": "datasets/tickers/dataset_FIXP.parquet",
+      "destination": "data/processed/tickers/dataset_FIXP.parquet",
+      "rows": 672,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2025-06-13",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_FLOT.parquet": {
+      "source": "datasets/tickers/dataset_FLOT.parquet",
+      "destination": "data/processed/tickers/dataset_FLOT.parquet",
+      "rows": 886,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_GAZP.parquet": {
+      "source": "datasets/tickers/dataset_GAZP.parquet",
+      "destination": "data/processed/tickers/dataset_GAZP.parquet",
+      "rows": 894,
+      "cols": 50,
+      "date_start": "2022-10-28",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_GMKN.parquet": {
+      "source": "datasets/tickers/dataset_GMKN.parquet",
+      "destination": "data/processed/tickers/dataset_GMKN.parquet",
+      "rows": 890,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_HYDR.parquet": {
+      "source": "datasets/tickers/dataset_HYDR.parquet",
+      "destination": "data/processed/tickers/dataset_HYDR.parquet",
+      "rows": 889,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_IRAO.parquet": {
+      "source": "datasets/tickers/dataset_IRAO.parquet",
+      "destination": "data/processed/tickers/dataset_IRAO.parquet",
+      "rows": 884,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_LKOH.parquet": {
+      "source": "datasets/tickers/dataset_LKOH.parquet",
+      "destination": "data/processed/tickers/dataset_LKOH.parquet",
+      "rows": 870,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_MAGN.parquet": {
+      "source": "datasets/tickers/dataset_MAGN.parquet",
+      "destination": "data/processed/tickers/dataset_MAGN.parquet",
+      "rows": 889,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_MGNT.parquet": {
+      "source": "datasets/tickers/dataset_MGNT.parquet",
+      "destination": "data/processed/tickers/dataset_MGNT.parquet",
+      "rows": 887,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_MOEX.parquet": {
+      "source": "datasets/tickers/dataset_MOEX.parquet",
+      "destination": "data/processed/tickers/dataset_MOEX.parquet",
+      "rows": 882,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_MTSS.parquet": {
+      "source": "datasets/tickers/dataset_MTSS.parquet",
+      "destination": "data/processed/tickers/dataset_MTSS.parquet",
+      "rows": 884,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_NLMK.parquet": {
+      "source": "datasets/tickers/dataset_NLMK.parquet",
+      "destination": "data/processed/tickers/dataset_NLMK.parquet",
+      "rows": 890,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_NVTK.parquet": {
+      "source": "datasets/tickers/dataset_NVTK.parquet",
+      "destination": "data/processed/tickers/dataset_NVTK.parquet",
+      "rows": 869,
+      "cols": 50,
+      "date_start": "2022-10-28",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_OZON.parquet": {
+      "source": "datasets/tickers/dataset_OZON.parquet",
+      "destination": "data/processed/tickers/dataset_OZON.parquet",
+      "rows": 864,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_PHOR.parquet": {
+      "source": "datasets/tickers/dataset_PHOR.parquet",
+      "destination": "data/processed/tickers/dataset_PHOR.parquet",
+      "rows": 839,
+      "cols": 50,
+      "date_start": "2022-10-28",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_PIKK.parquet": {
+      "source": "datasets/tickers/dataset_PIKK.parquet",
+      "destination": "data/processed/tickers/dataset_PIKK.parquet",
+      "rows": 899,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_PLZL.parquet": {
+      "source": "datasets/tickers/dataset_PLZL.parquet",
+      "destination": "data/processed/tickers/dataset_PLZL.parquet",
+      "rows": 882,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_POSI.parquet": {
+      "source": "datasets/tickers/dataset_POSI.parquet",
+      "destination": "data/processed/tickers/dataset_POSI.parquet",
+      "rows": 870,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {
+        "R12_1": 115,
+        "dist_52w_high": 114
+      }
+    },
+    "tickers/dataset_ROSN.parquet": {
+      "source": "datasets/tickers/dataset_ROSN.parquet",
+      "destination": "data/processed/tickers/dataset_ROSN.parquet",
+      "rows": 871,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_RTKM.parquet": {
+      "source": "datasets/tickers/dataset_RTKM.parquet",
+      "destination": "data/processed/tickers/dataset_RTKM.parquet",
+      "rows": 884,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_SBER.parquet": {
+      "source": "datasets/tickers/dataset_SBER.parquet",
+      "destination": "data/processed/tickers/dataset_SBER.parquet",
+      "rows": 884,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_SIBN.parquet": {
+      "source": "datasets/tickers/dataset_SIBN.parquet",
+      "destination": "data/processed/tickers/dataset_SIBN.parquet",
+      "rows": 869,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_SMLT.parquet": {
+      "source": "datasets/tickers/dataset_SMLT.parquet",
+      "destination": "data/processed/tickers/dataset_SMLT.parquet",
+      "rows": 894,
+      "cols": 50,
+      "date_start": "2022-10-28",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_SNGS.parquet": {
+      "source": "datasets/tickers/dataset_SNGS.parquet",
+      "destination": "data/processed/tickers/dataset_SNGS.parquet",
+      "rows": 884,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_T.parquet": {
+      "source": "datasets/tickers/dataset_T.parquet",
+      "destination": "data/processed/tickers/dataset_T.parquet",
+      "rows": 212,
+      "cols": 50,
+      "date_start": "2025-06-24",
+      "date_end": "2026-05-06",
+      "nan_remaining": {
+        "R126": 44,
+        "R12_1": 164,
+        "dist_52w_high": 163
+      }
+    },
+    "tickers/dataset_TATN.parquet": {
+      "source": "datasets/tickers/dataset_TATN.parquet",
+      "destination": "data/processed/tickers/dataset_TATN.parquet",
+      "rows": 852,
+      "cols": 50,
+      "date_start": "2022-10-28",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_TRNFP.parquet": {
+      "source": "datasets/tickers/dataset_TRNFP.parquet",
+      "destination": "data/processed/tickers/dataset_TRNFP.parquet",
+      "rows": 880,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_VTBR.parquet": {
+      "source": "datasets/tickers/dataset_VTBR.parquet",
+      "destination": "data/processed/tickers/dataset_VTBR.parquet",
+      "rows": 890,
+      "cols": 50,
+      "date_start": "2022-10-21",
+      "date_end": "2026-05-06",
+      "nan_remaining": {}
+    },
+    "tickers/dataset_YDEX.parquet": {
+      "source": "datasets/tickers/dataset_YDEX.parquet",
+      "destination": "data/processed/tickers/dataset_YDEX.parquet",
+      "rows": 311,
+      "cols": 50,
+      "date_start": "2025-02-06",
+      "date_end": "2026-05-06",
+      "nan_remaining": {
+        "R126": 48,
+        "R12_1": 168,
+        "dist_52w_high": 167
+      }
+    }
+  }
+}
