@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE and local agents
+.idea/
+.vscode/
+.claude/settings.local.json
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Generated datasets, models and reports
+datasets/
+data/raw/
+data/processed/
+models/
+models_processed/
+results/
+results_processed/
+artifacts/
+*.parquet
+*.pkl
+*.joblib
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db
