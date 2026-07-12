@@ -15,11 +15,11 @@ ML pipeline predicting `target = max(ADJ_HIGH[t+1..t+5]) / ADJ_CLOSE[t] - 1` (ma
 pip install -r requirements.txt
 
 # Step 1: Build datasets (fetches from ISS MOEX, ~18 sec async)
-python build_datasets_new.py   # preferred: includes split detection + target clipping
-python build_datasets.py       # original version without split detection
+python scripts/build_datasets.py   # preferred: includes split detection + target clipping
+python scripts/build_datasets.py       # original version without split detection
 
 # Step 2: Train models (runs as plain Python; also works as Jupyter notebook)
-python train_models.py
+python scripts/train_models.py
 
 # Optional: convert train_models.py to a Jupyter notebook
 pip install jupytext
@@ -35,7 +35,7 @@ In Jupyter (event loop already running): `await build_all_datasets_async()` inst
 
 ### Two-stage pipeline
 
-**Stage 1 — Dataset building** (`build_datasets_new.py` / `build_datasets.py`):
+**Stage 1 — Dataset building** (`src/ml_stocks_analysis/data_pipeline.py`):
 
 1. **Async I/O** (asyncio + aiohttp, semaphore `CONCURRENCY=6`):
    - Benchmarks fetched in parallel: IMOEX index, USD/RUB rate, RVI volatility index
@@ -55,7 +55,7 @@ In Jupyter (event loop already running): `await build_all_datasets_async()` inst
    - **Sector datasets**: same cross-sectional normalization within sector → `datasets/sectors/dataset_{SECTOR}.parquet`
    - **Per-ticker datasets**: rolling time-series z-score (120-day window, min 60 periods) → `datasets/tickers/dataset_{TICKER}.parquet`
 
-**Stage 2 — Model training** (`train_models.py`, jupytext percent format `# %%`):
+**Stage 2 — Model training** (`src/ml_stocks_analysis/training.py`, jupytext percent format `# %%`):
 
 - Loads all three dataset scopes from parquet
 - IC analysis (Spearman per date, cross-sectionally for panels)
