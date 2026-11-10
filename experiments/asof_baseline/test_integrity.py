@@ -25,6 +25,17 @@ class IntegrityChecks(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "did not return a dividends table"):
                 asyncio.run(source.fetch_dividends(None, None, "SBER"))
 
+    def test_verified_ex_date_is_adjustment_boundary(self):
+        raw = pd.DataFrame({"TRADEDATE": pd.to_datetime(["2024-07-10", "2024-07-11"]),
+                            "OPEN": [100., 90.], "HIGH": [100., 90.],
+                            "LOW": [100., 90.], "CLOSE": [100., 90.],
+                            "WAPRICE": [100., 90.]})
+        event = pd.DataFrame({"ex_date": pd.to_datetime(["2024-07-11"]),
+                              "value": [10.]})
+        out = source.backward_adjust(raw, event)
+        self.assertEqual(out.ADJ_CLOSE.tolist(), [90., 90.])
+        self.assertNotIn("dte_ex_days", source.add_calendar_features(raw, event))
+
     def test_partial_iss_page_is_an_error(self):
         # _paginate passes params as a positional argument, so an explicit
         # mock uses the fourth parameter to inspect the next cursor.

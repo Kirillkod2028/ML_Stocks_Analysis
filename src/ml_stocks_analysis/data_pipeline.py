@@ -115,12 +115,12 @@ FEATURE_COLS: list[str] = [
     "CCI_20", "EMA_cross_20_50", "Donchian_pos_20",
     "Beta_IMOEX_60d", "RS_vs_IMOEX_20d", "IVOL_60d",
     "Beta_USDRUB_60d", "RVI_level",
-    "day_of_week", "month", "dte_ex_days", "post_ex_flag_10d",
+    "day_of_week", "month",
 ]
 
 CATEGORICAL_COLS: set[str] = {
     "TSMOM", "MACD_slope_sign", "EMA_cross_20_50",
-    "day_of_week", "month", "post_ex_flag_10d",
+    "day_of_week", "month",
 }
 # RVI is shared by all stocks on a date. Ranking it cross-sectionally would
 # destroy the actual market-volatility state (and missing RVI must stay NaN).
@@ -274,7 +274,7 @@ async def fetch_dividends(
         )
     rows = data["dividends"].get("data", [])
     cols = data["dividends"].get("columns", [])
-    if not {"registryclosedate", "value"}.issubset(cols):
+    if not {"registryclosedate", "ex_date", "value"}.issubset(cols):
         raise RuntimeError(f"Unexpected dividends schema for {ticker}: {cols}")
     if not rows:
         return pd.DataFrame()
@@ -282,11 +282,15 @@ async def fetch_dividends(
     df = pd.DataFrame(rows, columns=cols)
     if "registryclosedate" in df.columns:
         df["registryclosedate"] = pd.to_datetime(df["registryclosedate"], errors="coerce")
+    df["ex_date"] = pd.to_datetime(df["ex_date"], errors="coerce")
     if "value" in df.columns:
         df["value"] = pd.to_numeric(df["value"], errors="coerce")
     if "currencyid" in df.columns:
         df = df[df["currencyid"].isin(["RUB", "SUR"]) | df["currencyid"].isna()]
-    return df.dropna(subset=["registryclosedate", "value"]).query("value > 0").reset_index(drop=True)
+    valid = df.dropna(subset=["registryclosedate", "ex_date", "value"]).query("value > 0")
+    if len(valid) != len(df):
+        raise RuntimeError(f"Incomplete dividend events for {ticker}")
+    return valid.reset_index(drop=True)
 
 
 async def fetch_index(
@@ -395,13 +399,6 @@ def _detect_and_fix_splits(
 # DIVIDEND ADJUSTMENT
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def _get_ex_date(record_date: pd.Timestamp) -> pd.Timestamp:
-    """registryclosedate → ex-dividend дата (T+1 после 24.07.2023, T+2 до)."""
-    offset = (pd.offsets.BusinessDay(1) if record_date >= pd.Timestamp("2023-07-24")
-              else pd.offsets.BusinessDay(2))
-    return record_date - offset
-
-
 def backward_adjust(df: pd.DataFrame, divs: pd.DataFrame) -> pd.DataFrame:
     """
     Мультипликативная backwards-корректировка OHLC + WAPRICE.
@@ -417,11 +414,11 @@ def backward_adjust(df: pd.DataFrame, divs: pd.DataFrame) -> pd.DataFrame:
     for col in ["OPEN", "HIGH", "LOW", "CLOSE", "WAPRICE"]:
         df[f"ADJ_{col}"] = df[col].astype(float).copy()
 
-    if divs.empty or "registryclosedate" not in divs.columns:
+    if divs.empty:
         return df
-
-    valid = (divs[["registryclosedate", "value"]].dropna().query("value > 0").copy())
-    valid["ex_date"] = valid["registryclosedate"].apply(_get_ex_date)
+    if not {"ex_date", "value"}.issubset(divs.columns):
+        raise ValueError("Dividend adjustment requires verified first ex_date")
+    valid = divs[["ex_date", "value"]].dropna().query("value > 0").copy()
     valid = valid.sort_values("ex_date", ascending=False)
 
     raw_close_mean = df["CLOSE"].replace(0, np.nan).mean()
@@ -623,22 +620,9 @@ def add_calendar_features(feat_df: pd.DataFrame, divs: pd.DataFrame) -> pd.DataF
     out = feat_df.copy()
     out["day_of_week"]      = out["TRADEDATE"].dt.dayofweek
     out["month"]            = out["TRADEDATE"].dt.month
-    out["dte_ex_days"]      = 999
-    out["post_ex_flag_10d"] = 0
-    if divs.empty or "registryclosedate" not in divs.columns:
-        return out
-    ex  = np.array(divs["registryclosedate"].dropna().apply(_get_ex_date)
-                   .sort_values().values, dtype="datetime64[D]")
-    dt  = np.array(out["TRADEDATE"].values, dtype="datetime64[D]")
-    dte, post = [], []
-    for d in dt:
-        fut = ex[ex > d]
-        dte.append(int((fut.min()-d)/np.timedelta64(1,"D")) if len(fut) else 999)
-        pas = ex[ex <= d]
-        ds  = int((d-pas.max())/np.timedelta64(1,"D")) if len(pas) else 999
-        post.append(1 if ds <= 10 else 0)
-    out["dte_ex_days"]      = np.minimum(dte, 999)
-    out["post_ex_flag_10d"] = post
+    # Historical ex-dates alone cannot reveal whether an upcoming event was
+    # announced by this decision time. Add event features only after storing
+    # announcement/availability timestamps from a verified source.
     return out
 
 
@@ -652,8 +636,10 @@ def calculate_target(
     target[valid] = future[valid].max(axis=1) / adj_close[valid] - 1
 
     # Маскируем таргет вокруг ex-dividend дат (±7 дней до ex_date)
-    if not divs.empty and "registryclosedate" in divs.columns:
-        for ex in divs["registryclosedate"].dropna().apply(_get_ex_date):
+    if not divs.empty:
+        if "ex_date" not in divs.columns:
+            raise ValueError("Dividend target masking requires first ex_date")
+        for ex in pd.to_datetime(divs["ex_date"]).dropna():
             mask = (target.index >= ex - pd.Timedelta(days=7)) & (target.index < ex)
             target[mask] = np.nan
 
