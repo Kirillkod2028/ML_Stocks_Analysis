@@ -65,6 +65,7 @@ def _summary(d: pd.DataFrame, *, side_bps: float, unresolved: int,
                 sells=int(trades.action.isin(["SELL", "FINAL_SELL"]).sum()),
                 missing_open_buys=int(trades.action.eq("SKIP_BUY_OPEN").sum()),
                 ineligible_buys=int(trades.action.eq("SKIP_BUY_INELIGIBLE").sum()),
+                gated_buys=int(trades.action.eq("SKIP_BUY_GATE").sum()),
                 deferred_sell_attempts=int(trades.action.eq("DEFER_SELL").sum()),
                 assumptions=ASSUMPTIONS)
 
@@ -74,7 +75,7 @@ def simulate_retention(predictions: pd.DataFrame, quotes: pd.DataFrame,
                        rebalance_every: int = 1, phase: int = 0,
                        side_bps: float = 0., end_date="2026-05-06",
                        max_positions: int = 5, enter_rank: int = 5,
-                       same_ticker_events=None):
+                       same_ticker_events=None, cash_allocation: str = "selected_names"):
     """Keep names inside the retention band, fill vacancies from current top5.
 
     On a scheduled decision date, missing scores for a held name produce a sell
@@ -82,8 +83,16 @@ def simulate_retention(predictions: pd.DataFrame, quotes: pd.DataFrame,
     signal explicitly retains that name again. Buy lists last for one opening
     only. An unavailable sell still occupies a position slot; insufficient slots
     truncate the preselected buy list by its original signal rank. Missing buy
-    quotes leave cash without replacement. Available cash is split equally over
-    that preselected list, independent of which quotes eventually exist.
+    quotes leave cash without replacement. Optional boolean ``can_enter`` and
+    ``can_hold`` columns are known at signal time. Entry gates are applied after
+    rank and vacancy preselection; no lower-ranked substitute is introduced.
+    A held name also needs can_hold=True to remain in the retention band.
+
+    ``selected_names`` preserves the original equal cash split over selected
+    names. ``vacancy_slots`` divides available cash by the number of vacancies
+    planned at the decision, or actual opening capacity if larger. Gated or
+    missing buys therefore leave their allocation in cash. Failed sales occupy
+    slots and never increase another selected name's allocation.
 
     The end date is an explicit predeclared evaluation boundary. All remaining
     positions are liquidated at its close if a quote exists; unclosed positions
@@ -94,10 +103,19 @@ def simulate_retention(predictions: pd.DataFrame, quotes: pd.DataFrame,
         raise ValueError("Invalid fees or portfolio size")
     if retain_rank < enter_rank or rebalance_every < 1 or not 0 <= phase < rebalance_every:
         raise ValueError("Invalid retention rank or rebalance phase")
+    if cash_allocation not in {"selected_names", "vacancy_slots"}:
+        raise ValueError("Unknown cash_allocation")
     same_ticker_events = (same_ticker_transition_records() if same_ticker_events is None
                           else same_ticker_events)
     conversion_uses = set()
     p = predictions[["TRADEDATE", "ticker", "prediction"]].copy()
+    for column in ("can_enter", "can_hold"):
+        if column in predictions:
+            if not predictions[column].map(lambda value: isinstance(value, (bool, np.bool_))).all():
+                raise ValueError(f"{column} must contain only explicit nonmissing booleans")
+            p[column] = predictions[column].to_numpy()
+        else:
+            p[column] = True
     p.TRADEDATE = pd.to_datetime(p.TRADEDATE)
     if p.empty or p.duplicated(["TRADEDATE", "ticker"]).any():
         raise ValueError("Predictions must have unique nonempty date/ticker keys")
@@ -130,7 +148,7 @@ def simulate_retention(predictions: pd.DataFrame, quotes: pd.DataFrame,
                 for row in q.itertuples(index=False)}
     held: dict[str, Holding] = {}
     pending_sells: dict[str, pd.Timestamp] = {}
-    pending_buys: tuple[pd.Timestamp, list[str]] | None = None
+    pending_buys: tuple[pd.Timestamp, list[tuple[str, bool]], int] | None = None
     cash = prev_nav = 1.
     fee_rate = side_bps / 10000.
     daily, records = [], []
@@ -161,13 +179,19 @@ def simulate_retention(predictions: pd.DataFrame, quotes: pd.DataFrame,
             del pending_sells[ticker]
 
         if pending_buys is not None:
-            decision, candidates = pending_buys
+            decision, candidates, planned_slots = pending_buys
             # Failed sells still count toward max_positions. Candidate truncation
             # follows previous-close ranking, never the existence of buy quotes.
             capacity = max_positions - len(held)
-            chosen = [ticker for ticker in candidates if ticker not in held][:capacity]
-            budget = cash / len(chosen) if chosen else 0.
-            for ticker in chosen:
+            chosen = [(ticker, allowed) for ticker, allowed in candidates
+                      if ticker not in held][:capacity]
+            denominator = (max(planned_slots, capacity) if cash_allocation == "vacancy_slots"
+                           else len(chosen))
+            budget = cash / denominator if chosen and denominator else 0.
+            for ticker, allowed in chosen:
+                if not allowed:
+                    record(ticker, "SKIP_BUY_GATE", decision)
+                    continue
                 if not entry_permissions.get((day, ticker), True):
                     record(ticker, "SKIP_BUY_INELIGIBLE", decision)
                     continue
@@ -224,14 +248,19 @@ def simulate_retention(predictions: pd.DataFrame, quotes: pd.DataFrame,
         if day != end and (i-first) % rebalance_every == phase and day in signals:
             ordered = signals[day].ticker.tolist()
             ranks = {ticker: rank for rank, ticker in enumerate(ordered, 1)}
-            retained = {ticker for ticker in held if ranks.get(ticker, np.inf) <= retain_rank}
+            enter_allowed = dict(zip(signals[day].ticker, signals[day].can_enter))
+            hold_allowed = dict(zip(signals[day].ticker, signals[day].can_hold))
+            retained = {ticker for ticker in held if ranks.get(ticker, np.inf) <= retain_rank
+                        and hold_allowed.get(ticker, False)}
             for ticker in held:
                 if ticker in retained:
                     pending_sells.pop(ticker, None)
                 else:
                     pending_sells.setdefault(ticker, day)
             candidates = [ticker for ticker in ordered[:enter_rank] if ticker not in held]
-            pending_buys = (day, candidates[:max_positions-len(retained)])
+            planned_slots = max_positions - len(retained)
+            pending_buys = (day, [(ticker, bool(enter_allowed[ticker]))
+                                  for ticker in candidates[:planned_slots]], planned_slots)
 
     d = pd.DataFrame(daily)
     t = pd.DataFrame(records, columns=["TRADEDATE", "decision_date", "ticker", "action",
@@ -240,7 +269,9 @@ def simulate_retention(predictions: pd.DataFrame, quotes: pd.DataFrame,
                        retain_rank=retain_rank, enter_rank=enter_rank,
                        max_positions=max_positions, rebalance_every=rebalance_every,
                        phase=phase, phase_origin=str(cal[first].date()),
-                       end_liquidation_predeclared=True)
+                       end_liquidation_predeclared=True, cash_allocation=cash_allocation,
+                       can_enter_gate_used="can_enter" in predictions,
+                       can_hold_gate_used="can_hold" in predictions)
     summary["unresolved_tickers"] = sorted(held)
     summary["explicit_entry_permissions"] = "entry_allowed" in q
     summary["same_ticker_conversion_cohorts"] = len(conversion_uses)
@@ -253,7 +284,8 @@ def equal_phase_composite(phases: list[tuple[pd.DataFrame, pd.DataFrame, dict]])
     """Equal initial capital over all five phases, without cross-phase netting."""
     if len(phases) != 5 or {s["phase"] for _, _, s in phases} != set(range(5)):
         raise ValueError("Composite requires all five distinct fixed phases")
-    keys = ("side_bps", "retain_rank", "enter_rank", "max_positions", "rebalance_every")
+    keys = ("side_bps", "retain_rank", "enter_rank", "max_positions", "rebalance_every",
+            "cash_allocation", "can_enter_gate_used", "can_hold_gate_used")
     configs = {tuple(s[key] for key in keys) for _, _, s in phases}
     if len(configs) != 1 or phases[0][2]["rebalance_every"] != 5:
         raise ValueError("Composite phases must share fees, sizing and five-session rules")
@@ -276,7 +308,10 @@ def equal_phase_composite(phases: list[tuple[pd.DataFrame, pd.DataFrame, dict]])
                  unresolved=unresolved, retain_rank=phases[0][2]["retain_rank"],
                  enter_rank=phases[0][2]["enter_rank"],
                  max_positions=5*phases[0][2]["max_positions"], rebalance_every=5, phase="equal_composite",
-                 phase_origin=phases[0][2]["phase_origin"], end_liquidation_predeclared=True)
+                 phase_origin=phases[0][2]["phase_origin"], end_liquidation_predeclared=True,
+                 cash_allocation=phases[0][2]["cash_allocation"],
+                 can_enter_gate_used=phases[0][2]["can_enter_gate_used"],
+                 can_hold_gate_used=phases[0][2]["can_hold_gate_used"])
     s["assumptions"] = ASSUMPTIONS + ["equal initial capital across all five phases; no cross-phase netting"]
     s["unresolved_tickers"] = sorted({t for _, _, summary in phases for t in summary["unresolved_tickers"]})
     s["explicit_entry_permissions"] = all(summary["explicit_entry_permissions"]

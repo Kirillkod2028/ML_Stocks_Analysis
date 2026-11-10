@@ -1,0 +1,74 @@
+{
+  "recorded_utc": "2026-11-10T15:08:09.561235+00:00",
+  "base_commit": "eca156593d7c8a501506764ee650bd822e0139ca",
+  "purpose": "Compare complete rank/absolute-return/hybrid pipelines with explicit cash option",
+  "development_start": "2024-01-01",
+  "last_label_end_exclusive": "2026-05-07",
+  "liquidation_date": "2026-05-06",
+  "untouched_test": false,
+  "input_sha256": {
+    "experiments/asof_baseline/panel.parquet": "a6c8e64f4c0a1874680748d6f6a91cd49c7aa723a51e62282e76d146d8bb28b8",
+    "experiments/asof_baseline/calendar.parquet": "775ae6ccba3c9547a970a109566e833581abcb060dd556ba9d4914382e40d704",
+    "experiments/asof_baseline/quotes.parquet": "054130ffcfca4719cec79a63cf69d163a91a935ad293f0d10e85cc36180c457e",
+    "experiments/asof_baseline/target_development_predictions.parquet": "2e09a6f1f8943f0ac8e5a18ad3c5ac616a0d60a2660977d853232a9ad851074e",
+    "experiments/asof_baseline/feature_sets.json": "bffd8556bffaa1450a81b8615fcbb6345ca13fda330def34e7686342333925dc",
+    "experiments/ssa_targets_20261109/raw/IMOEX.csv": "2703c61d4f0ab7630178b6442f8036164ce1b9397baa411bdb90f16f6c4227b5",
+    "experiments/asof_baseline/continuity_data/quotes_conversion_scenario.parquet": "f80f791a27a4bc4ecddc55df8702fef756974a207bb7f7af2908608c4131cf4b"
+  },
+  "model": "Ridge; monthly two-year rolling; shared completed rows as prior compare_targets; all current-eligible rows predicted",
+  "alpha_grid": [
+    10,
+    1000,
+    10000
+  ],
+  "inner_validation": "last63 training decision dates; fit label_end strictly before first inner date",
+  "rank_selection": "mean daily SpearmanIC",
+  "absolute_selection": "minimum mean daily MSE in gross price-return units",
+  "feature_blocks": {
+    "base": "saved45 features; primary",
+    "market_augmented": "same45 plus causal IMOEX returns5/21 and logreturn sigma20; secondary sensitivity for both models"
+  },
+  "costs": "net expectation=(1+gross)*(1-c)/(1+c)-1; c=sidebps/10000; no separate constant-shift target training",
+  "side_bps": [
+    0,
+    10,
+    25
+  ],
+  "primary_cost_bps": 10,
+  "policies": {
+    "rank_always": "rank ordering; entries top5; retain rank<=10",
+    "return_always": "absolute expectation ordering; entries top5; retain rank<=10; no cash gate control",
+    "return_cash": "absolute ordering; entry net>0; hold gross>0 and rank<=10",
+    "rank_cash": "rank ordering; same absolute-model entry/hold gates"
+  },
+  "cash_sizing": "five slots; available cash divided by planned vacancy count; gated/unfilled slots remain cash; no replacement beyond preselected top5",
+  "execution": "existing next-open retention engine; all policies cash_allocation=vacancy_slots; fixed quantities; predeclared final-close liquidation; original quotes primary",
+  "reference": "all cash NAV1 zero interest",
+  "primary_contrast": "base rank_cash vs base rank_always at10bps",
+  "metrics": [
+    "net price return",
+    "mean exposure",
+    "turnover",
+    "drawdown with stale flag",
+    "unresolved holdings",
+    "monthly/yearly paired differences",
+    "absolute calibration/MSE versus historicalmean",
+    "conditional dailyIC",
+    "entry counts per fee scenario"
+  ],
+  "uncertainty": "exploratory paired bootstrap of monthly mean daily-return differences,10000 samples,seed20261110; no significance/independent-test claim",
+  "limits": [
+    "same inspected development periods; adaptive research",
+    "rank usesIC tuning and absolute usesMSE: compare full pipelines, not isolated target effect",
+    "fees alter gate and trades: cost scenarios not pure fee sensitivity",
+    "5-session forecast is rolling signal; variable actual holding; gross>0 holdgate heuristic",
+    "dividends incomplete and excluded",
+    "zero cash interest, idealized OHLC netting and fractional shares",
+    "retrospective35-ticker universe; conditional training outcomes; missing exits/stale quotes remain visible"
+  ],
+  "execution_quote_scenarios": {
+    "original": "primary; unresolved positions invalidate realized returns",
+    "custody": "sensitivity; verified AGRO/FIXP successor prices conditional on successful custody conversion, liquidation only"
+  },
+  "execution_scenario_recorded_utc": "2026-11-10T15:09:54.908055+00:00"
+}

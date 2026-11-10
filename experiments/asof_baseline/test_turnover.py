@@ -176,6 +176,89 @@ class TurnoverChecks(unittest.TestCase):
         self.assertEqual(s["phase"],"equal_composite")
         self.assertEqual(d.TRADEDATE.iloc[0],self.cal[0])
 
+    def test_false_entry_gates_preserve_all_cash(self):
+        p = self.signals({i:"ABCDEF" for i in range(10)})
+        p["can_enter"] = False
+        p["can_hold"] = False
+        d,t,s = self.simulate(p, cash_allocation="vacancy_slots", side_bps=25.)
+        np.testing.assert_allclose(d.nav, 1.)
+        np.testing.assert_allclose(d.cash, 1.)
+        self.assertEqual(s["buys"], 0)
+        self.assertEqual(s["total_cost_per_initial_nav"], 0.)
+        self.assertEqual(s["gated_buys"], 50)
+        self.assertNotIn("F", t.ticker.tolist())
+
+    def test_gate_rejection_leaves_vacancy_cash_without_concentration(self):
+        p = self.signals({0:"ABCDEF"})
+        p["can_enter"] = p.ticker.isin(["A", "F"])
+        d,t,s = self.simulate(p, cash_allocation="vacancy_slots", side_bps=10.)
+        buys = t.loc[t.action.eq("BUY")]
+        self.assertEqual(buys.ticker.tolist(), ["A"])
+        self.assertAlmostEqual(buys.notional.iloc[0], .2/1.001)
+        self.assertAlmostEqual(d.cash.iloc[1], .8)
+        self.assertEqual(s["gated_buys"], 4)
+        self.assertNotIn("F", t.ticker.tolist())
+        self.assertEqual(buys.TRADEDATE.iloc[0], self.cal[1])
+
+    def test_vacancy_sizing_reserves_cash_for_unrepresented_names(self):
+        p = self.signals({0:"A"})
+        d,_,_ = self.simulate(p, self.quotes("A"), cash_allocation="vacancy_slots")
+        self.assertAlmostEqual(d.cash.iloc[1], .8)
+        legacy,_,_ = self.simulate(p, self.quotes("A"))
+        self.assertAlmostEqual(legacy.cash.iloc[1], 0.)
+
+    def test_hold_gate_exit_is_next_open_and_distinct_from_entry_gate(self):
+        p = self.signals({0:"A", 1:"A"})
+        p["can_enter"] = [True, False]
+        p["can_hold"] = [True, False]
+        q = self.quotes("A")
+        q.loc[q.TRADEDATE.eq(self.cal[2]), "OPEN"] = 120.
+        d,t,_ = self.simulate(p, q, max_positions=1, enter_rank=1, retain_rank=1,
+                              cash_allocation="vacancy_slots")
+        self.assertEqual(t.action.tolist(), ["BUY", "SELL"])
+        self.assertEqual(t.TRADEDATE.tolist(), [self.cal[1], self.cal[2]])
+        self.assertAlmostEqual(d.nav.iloc[-1], 1.2)
+        p["can_hold"] = True
+        _,t2,_ = self.simulate(p, q, max_positions=1, enter_rank=1, retain_rank=1,
+                               cash_allocation="vacancy_slots")
+        self.assertEqual(t2.action.tolist(), ["BUY", "FINAL_SELL"])
+
+    def test_gates_reject_missing_values_and_non_booleans(self):
+        for column in ("can_enter", "can_hold"):
+            for invalid in (None, np.nan, 0, 1, "False"):
+                p = self.signals({0:"A"})
+                p[column] = pd.Series([invalid], dtype=object)
+                with self.assertRaisesRegex(ValueError, column):
+                    self.simulate(p)
+
+    def test_failed_sale_does_not_concentrate_vacancy_budget_or_borrow(self):
+        p = self.signals({0:"ABCDEF", 1:"FBCDEA"})
+        p["can_enter"] = True
+        p.loc[(p.TRADEDATE == self.cal[0]) & p.ticker.eq("E"), "can_enter"] = False
+        p["can_hold"] = True
+        p.loc[(p.TRADEDATE == self.cal[1]) & p.ticker.eq("A"), "can_hold"] = False
+        q = self.quotes()
+        q.loc[q.ticker.eq("A") & q.TRADEDATE.isin(self.cal[2:4]), ["OPEN","CLOSE"]] = np.nan
+        d,t,_ = self.simulate(p,q,cash_allocation="vacancy_slots")
+        opening = t.loc[t.TRADEDATE.eq(self.cal[2])]
+        self.assertEqual(opening.action.tolist(), ["DEFER_SELL", "BUY"])
+        self.assertEqual(opening.loc[opening.action.eq("BUY"), "ticker"].tolist(), ["F"])
+        self.assertAlmostEqual(opening.loc[opening.action.eq("BUY"), "notional"].iloc[0], .1)
+        self.assertAlmostEqual(d.cash.iloc[2], .1)
+        self.assertTrue(d.holdings.le(5).all())
+        self.assertTrue(d.cash.ge(-1e-12).all())
+
+    def test_future_gates_do_not_change_prefix(self):
+        p = self.signals({i:"ABCDEF" for i in range(10)})
+        p["can_enter"] = p["can_hold"] = True
+        d,t,_ = self.simulate(p,cash_allocation="vacancy_slots")
+        p.loc[p.TRADEDATE.ge(self.cal[6]), ["can_enter", "can_hold"]] = False
+        changed,changed_trades,_ = self.simulate(p,cash_allocation="vacancy_slots")
+        pd.testing.assert_frame_equal(d.loc[d.TRADEDATE.le(self.cal[6])],
+                                      changed.loc[changed.TRADEDATE.le(self.cal[6])])
+        pd.testing.assert_frame_equal(t.loc[t.TRADEDATE.le(self.cal[6])],
+                                      changed_trades.loc[changed_trades.TRADEDATE.le(self.cal[6])])
+
 
 if __name__ == "__main__":
     unittest.main()
