@@ -1,0 +1,62 @@
+{
+  "url": "https://ir.mts.ru/investors/shares/dividends",
+  "retrieved_on": "2026-11-10",
+  "retrieval": "primary issuer history and final approved event disclosures via indexed web extraction",
+  "annual_totals": {
+    "2021": 37.06,
+    "2022": 33.85,
+    "2023": 34.29,
+    "2024": 35.0,
+    "2025": 35.0,
+    "2026": 35.0
+  },
+  "rows": [
+    {
+      "record_date": "2021-07-08",
+      "cash_amount": 26.51,
+      "source_url": "https://storage.ir.mts.ru/mts-ir/images/documents/results/MTS-Q3-2021-Results-Press-Release.pdf",
+      "period": "FY2020"
+    },
+    {
+      "record_date": "2021-10-12",
+      "cash_amount": 10.55,
+      "source_url": "https://storage.ir.mts.ru/mts-ir/images/documents/otchet_ob_itogah_golosovania_boca_30092021.pdf",
+      "period": "1H2021"
+    },
+    {
+      "record_date": "2022-07-12",
+      "cash_amount": 33.85,
+      "source_url": "https://ir.mts.ru/news_and_events/corporate_releases/details/424",
+      "period": "FY2021"
+    },
+    {
+      "record_date": "2023-06-29",
+      "cash_amount": 34.29,
+      "source_url": "https://ir.mts.ru/news_and_events/corporate_releases/details/741873",
+      "period": "FY2022"
+    },
+    {
+      "record_date": "2024-07-16",
+      "cash_amount": 35.0,
+      "source_url": "https://ir.mts.ru/news_and_events/corporate_releases/details/741912",
+      "period": "FY2023"
+    },
+    {
+      "record_date": "2025-07-07",
+      "cash_amount": 35.0,
+      "source_url": "https://ir.mts.ru/news_and_events/corporate_releases/details/742271",
+      "period": "FY2024"
+    },
+    {
+      "record_date": "2026-07-09",
+      "cash_amount": 35.0,
+      "source_url": "https://ir.mts.ru/news_and_events/corporate_releases/details/742426",
+      "period": "FY2025"
+    }
+  ],
+  "notes": [
+    "Finam mislabels record dates 2021-10-11 and 2022-07-11; primary approved resolutions establish 2021-10-12 and 2022-07-12. Finam last-cum dates remain corroborated.",
+    "Amounts are per ordinary share of nominal RUB 0.1, not ADR (two ordinary shares); no split in the reviewed interval.",
+    "Issuer annual totals include 2026; proposed future January 2027 distribution is outside this interval."
+  ]
+}

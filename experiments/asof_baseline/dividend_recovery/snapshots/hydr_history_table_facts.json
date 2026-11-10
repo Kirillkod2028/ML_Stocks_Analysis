@@ -1,0 +1,33 @@
+{
+  "url": "https://ar2025.rushydro.ru/corporate/for-shareholders-and-investors.html",
+  "retrieved_on": "2026-11-10",
+  "rows": [
+    {
+      "record_date": "2021-07-10",
+      "cash_amount": 0.0530482,
+      "source_url": "https://ar2025.rushydro.ru/corporate/for-shareholders-and-investors.html",
+      "record_date_source_url": "https://t.me/s/rushydro_official?before=4417&q=%23%D0%B4%D0%B8%D0%B2%D0%B8%D0%B4%D0%B5%D0%BD%D0%B4%D1%8B",
+      "period": "FY2020"
+    },
+    {
+      "record_date": "2022-07-10",
+      "cash_amount": 0.05304937,
+      "source_url": "https://ar2025.rushydro.ru/corporate/for-shareholders-and-investors.html",
+      "record_date_source_url": "https://old.sbibankllc.ru/node/3135",
+      "period": "FY2021"
+    },
+    {
+      "record_date": "2023-07-11",
+      "cash_amount": 0.050254795,
+      "source_url": "https://ar2025.rushydro.ru/corporate/for-shareholders-and-investors.html",
+      "record_date_source_url": "https://www.mkb-broker.ru/lists/depository-news/dividendy_v_denezhnoy_forme_o_korporativnom_deystvii_vyplata_dividendov_v_vide_denezhnykh_sredstv_s_tsennymi_bumagami_emitenta_pao_rusgidro_inn_2460066195_aktsiya_1_01_55038_e_isin_ru000a0jpkh7_20260814143933143/",
+      "period": "FY2022"
+    }
+  ],
+  "notes": [
+    "Finam incorrectly displays2021 recordJuly9 and2022 recordJuly8; actual legal recordJuly10 in both years.",
+    "Coverage intentionally ends2025-12-31;2026 remains unknown.",
+    "2026 MKB bulletin concerns termination of unclaimed2023 dividend, not a new distribution.",
+    "Ordinary-share issue1-01-55038-E, ISIN RU000A0JPKH7. No split in interval."
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "url": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends",
+  "retrieved_on": "2026-11-10",
+  "html_sha256": "f1fdb085977433e9fd45ce191191c0a214852506fdcbfff0f1ac20b218452646",
+  "rows": [
+    {
+      "source_payment_year_text": "2026*",
+      "source_period_text": "девяти месяцев 2025 года",
+      "cash_amount": 397,
+      "record_date_text": "12 января 2026 года"
+    },
+    {
+      "source_payment_year_text": "2026**",
+      "source_period_text": "2025 года",
+      "cash_amount": 278,
+      "record_date_text": "4 мая 2026 года"
+    },
+    {
+      "source_payment_year_text": "2024*",
+      "source_period_text": "девяти месяцев 2024 года",
+      "cash_amount": 514,
+      "record_date_text": "17 декабря 2024г."
+    },
+    {
+      "source_payment_year_text": "2025**",
+      "source_period_text": "2024 года",
+      "cash_amount": 541,
+      "record_date_text": "3 июня 2025 г."
+    },
+    {
+      "source_payment_year_text": "2023*",
+      "source_period_text": "девяти месяцев 2023 года",
+      "cash_amount": 447,
+      "record_date_text": "17 декабря 2023 г."
+    },
+    {
+      "source_payment_year_text": "2024**",
+      "source_period_text": "2023 года",
+      "cash_amount": 498,
+      "record_date_text": "7 мая 2024 г."
+    },
+    {
+      "source_payment_year_text": "2023*",
+      "source_period_text": "девяти месяцев 2022 года",
+      "cash_amount": 256,
+      "record_date_text": "21 декабря 2022г."
+    },
+    {
+      "source_payment_year_text": "2023**",
+      "source_period_text": "2022 года",
+      "cash_amount": 438,
+      "record_date_text": "05 июня 2023 г."
+    },
+    {
+      "source_payment_year_text": "2023**",
+      "source_period_text": "за счет нераспределенной прибыли 2021 года",
+      "cash_amount": 537,
+      "record_date_text": "21 декабря 2022г."
+    },
+    {
+      "source_payment_year_text": "2022*",
+      "source_period_text": "девяти месяцев 2021 года",
+      "cash_amount": 340,
+      "record_date_text": "21 декабря 2021г."
+    },
+    {
+      "source_payment_year_text": "2020-2021*",
+      "source_period_text": "девяти месяцев 2020 года",
+      "cash_amount": 46,
+      "record_date_text": "18 декабря 2020 г."
+    },
+    {
+      "source_payment_year_text": "2021**",
+      "source_period_text": "2020 года",
+      "cash_amount": 213,
+      "record_date_text": "5 июля 2021 г."
+    }
+  ]
+}

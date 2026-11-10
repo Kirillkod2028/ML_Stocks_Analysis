@@ -9,11 +9,15 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from ml_stocks_analysis.security_continuity import same_ticker_transition_records
 
 
 @dataclass
@@ -23,6 +27,39 @@ class Position:
     mark: float
     due_index: int
     decision_date: pd.Timestamp
+    entry_date: pd.Timestamp
+
+
+def track_same_ticker_conversion(used: set, events: list[dict], ticker: str,
+                                entry_date: pd.Timestamp, quote_date: pd.Timestamp):
+    """Record custody assumptions only when old holdings use successor quotes."""
+    for i, event in enumerate(events):
+        if (ticker == event["predecessor"]
+                and entry_date <= pd.Timestamp(event["last_predecessor_session"])
+                and quote_date >= pd.Timestamp(event["first_tradable_date"])):
+            used.add((i, str(entry_date.date())))
+
+
+def same_ticker_usage_records(used: set, events: list[dict]) -> list[dict]:
+    return [dict(event, affected_entry_cohorts=len(dates), entry_dates=sorted(dates))
+            for i, event in enumerate(events)
+            if (dates := {entry for event_index, entry in used if event_index == i})]
+
+
+def quote_entry_permissions(quotes: pd.DataFrame) -> dict:
+    """Validate optional quote-level eligibility for opening new holdings.
+
+    Synthetic continuity prices can value or liquidate an existing receipt but
+    do not make that receipt available for purchase again. Absence of the field
+    preserves ordinary quote behavior; an explicit column must be complete and
+    strictly boolean rather than interpreting missing values or strings as true.
+    """
+    if "entry_allowed" not in quotes:
+        return {}
+    if not quotes.entry_allowed.map(lambda x: isinstance(x, (bool, np.bool_))).all():
+        raise ValueError("entry_allowed must contain only nonmissing boolean values")
+    return {(row.TRADEDATE, row.ticker): bool(row.entry_allowed)
+            for row in quotes.itertuples(index=False)}
 
 
 def quotes_from_panel(panel: pd.DataFrame) -> tuple[pd.DataFrame, pd.DatetimeIndex]:
@@ -74,7 +111,7 @@ def quotes_from_raw(raw: Path, tickers) -> tuple[pd.DataFrame, pd.DatetimeIndex]
 def simulate(predictions: pd.DataFrame, quotes: pd.DataFrame,
              calendar: pd.DatetimeIndex, *, side_bps: float = 0.,
              selection: str = "top5", holding_sessions: int = 5,
-             end_date=None) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
+             end_date=None, same_ticker_events=None) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
     """Use five independent sleeves; recycle only their available cash.
 
     Decision t -> entry open t+1 -> scheduled exit close t+5. A sleeve's next
@@ -89,6 +126,9 @@ def simulate(predictions: pd.DataFrame, quotes: pd.DataFrame,
         raise ValueError("Invalid transaction cost or holding period")
     if selection not in {"top5", "universe"}:
         raise ValueError("selection must be top5 or universe")
+    same_ticker_events = (same_ticker_transition_records() if same_ticker_events is None
+                          else same_ticker_events)
+    conversion_uses = set()
     p = predictions[["TRADEDATE", "ticker", "prediction"]].copy()
     p.TRADEDATE = pd.to_datetime(p.TRADEDATE)
     if p.empty or p.duplicated(["TRADEDATE", "ticker"]).any():
@@ -101,10 +141,14 @@ def simulate(predictions: pd.DataFrame, quotes: pd.DataFrame,
     lookup = {d: i for i, d in enumerate(cal)}
     if not p.TRADEDATE.isin(cal).all():
         raise ValueError("Decision date absent from execution calendar")
-    q = quotes[["TRADEDATE", "ticker", "OPEN", "CLOSE"]].copy()
+    quote_columns = ["TRADEDATE", "ticker", "OPEN", "CLOSE"]
+    if "entry_allowed" in quotes:
+        quote_columns.append("entry_allowed")
+    q = quotes[quote_columns].copy()
     q.TRADEDATE = pd.to_datetime(q.TRADEDATE)
     if q.duplicated(["TRADEDATE", "ticker"]).any():
         raise ValueError("Duplicate date/ticker quotes")
+    entry_permissions = quote_entry_permissions(q)
     for name in ("OPEN", "CLOSE"):
         if ((q[name].notna()) & (~np.isfinite(q[name]) | q[name].le(0))).any():
             raise ValueError("Observed prices must be finite and positive")
@@ -129,6 +173,7 @@ def simulate(predictions: pd.DataFrame, quotes: pd.DataFrame,
     cumulative_cost = 0.
     cumulative_traded = 0.
     skipped_open = skipped_cashless = delayed_exits = partial_recycles = 0
+    skipped_ineligible = 0
     first = min(lookup[d] for d in p.TRADEDATE)
     for i in range(first, len(cal)):
         day = cal[i]
@@ -144,6 +189,12 @@ def simulate(predictions: pd.DataFrame, quotes: pd.DataFrame,
                 partial_recycles += int(bool(positions[sleeve]))
                 allocation = float(cash[sleeve]) / len(selected)
                 for ticker in selected:
+                    if not entry_permissions.get((day, ticker), True):
+                        skipped_ineligible += 1
+                        trades.append(dict(TRADEDATE=day, decision_date=decision,
+                                           ticker=ticker, sleeve=sleeve,
+                                           action="SKIP_BUY_INELIGIBLE", notional=0., cost=0.))
+                        continue
                     opening = observations.get((day, ticker), (np.nan, np.nan))[0]
                     if not np.isfinite(opening):
                         skipped_open += 1
@@ -155,7 +206,7 @@ def simulate(predictions: pd.DataFrame, quotes: pd.DataFrame,
                     fee = gross * cost
                     shares = gross / opening
                     cash[sleeve] -= gross + fee
-                    positions[sleeve].append(Position(ticker, shares, opening, due, decision))
+                    positions[sleeve].append(Position(ticker, shares, opening, due, decision, day))
                     day_cost += fee
                     day_traded += gross
                     trades.append(dict(TRADEDATE=day, decision_date=decision,
@@ -166,6 +217,8 @@ def simulate(predictions: pd.DataFrame, quotes: pd.DataFrame,
             for pos in holdings:
                 closing = observations.get((day, pos.ticker), (np.nan, np.nan))[1]
                 if np.isfinite(closing):
+                    track_same_ticker_conversion(conversion_uses, same_ticker_events,
+                                                pos.ticker, pos.entry_date, day)
                     pos.mark = closing
                 else:
                     stale += 1
@@ -220,12 +273,19 @@ def simulate(predictions: pd.DataFrame, quotes: pd.DataFrame,
                    mean_daily_turnover=float(d.turnover.mean()),
                    mean_exposure=float(d.exposure.mean()),
                    skipped_open_orders=skipped_open, skipped_cashless_sleeves=skipped_cashless,
+                   skipped_ineligible_orders=skipped_ineligible,
+                   explicit_entry_permissions="entry_allowed" in q,
+                   same_ticker_conversion_cohorts=len(conversion_uses),
+                   same_ticker_conversion_uses=same_ticker_usage_records(conversion_uses,
+                                                                          same_ticker_events),
                    partial_recycles=partial_recycles,
                    delayed_exits=delayed_exits, stale_nav_days=stale_days,
                    unresolved_positions=unresolved,
                    assumptions=["fractional shares; observed daily open/close fills",
                                 "five initially equal independent sleeves; no rebalancing between sleeves",
                                 "available sleeve cash is recycled while suspended positions remain held",
+                                "entry_allowed=false quotes cannot open new holdings; exits remain possible",
+                                "same-ticker successor marks require the custody eligibility recorded in same_ticker_conversion_uses",
                                 "fixed surviving ticker universe; no point-in-time membership",
                                 "no dividend cashflows, taxes, borrow, or capacity model",
                                 "cost bps are hypothetical per-side sensitivities",
@@ -240,11 +300,16 @@ def main():
     parser.add_argument("--quotes", type=Path, default=here / "quotes.parquet")
     parser.add_argument("--calendar", type=Path, default=here / "calendar.parquet")
     parser.add_argument("--predictions", type=Path, default=here / "asof_development_predictions.parquet")
+    parser.add_argument("--policy", help="Evaluate one frozen prediction policy")
     parser.add_argument("--raw-dir", type=Path)
     parser.add_argument("--end", default="2026-05-06")
     parser.add_argument("--output", type=Path, default=here / "portfolio_results")
     args = parser.parse_args()
     predictions = pd.read_parquet(args.predictions)
+    if args.policy is not None:
+        predictions = predictions.loc[predictions.policy.eq(args.policy)]
+        if predictions.empty:
+            raise ValueError(f"Unknown prediction policy: {args.policy}")
     if args.raw_dir:
         panel = pd.read_parquet(args.panel)
         quotes, calendar = quotes_from_raw(args.raw_dir, panel.ticker.unique())
@@ -272,7 +337,8 @@ def main():
                 summary["policy"] = str(policy)
                 summary["quote_source"] = quote_source
                 summaries.append(summary)
-    pd.DataFrame([{k: v for k, v in s.items() if k != "assumptions"} for s in summaries]).to_csv(
+    pd.DataFrame([{k: v for k, v in s.items() if k not in {"assumptions", "same_ticker_conversion_uses"}}
+                  for s in summaries]).to_csv(
         args.output / "summary.csv", index=False)
     (args.output / "summary.json").write_text(json.dumps(summaries, indent=2, allow_nan=False))
     print(pd.DataFrame(summaries)[["policy", "selection", "side_bps", "status",

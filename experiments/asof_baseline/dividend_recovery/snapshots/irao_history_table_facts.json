@@ -1,0 +1,48 @@
+{
+  "url": "https://reportcollection.inion.ru/reports/download/?reportId=4886",
+  "retrieved_on": "2026-11-10",
+  "rows": [
+    {
+      "record_date": "2021-06-07",
+      "cash_amount": 0.180711206896552,
+      "source_url": "https://reportcollection.inion.ru/reports/download/?reportId=4886",
+      "period": "FY2020"
+    },
+    {
+      "record_date": "2022-06-10",
+      "cash_amount": 0.23658380041773,
+      "source_url": "https://reportcollection.inion.ru/reports/download/?reportId=4886",
+      "period": "FY2021"
+    },
+    {
+      "record_date": "2023-05-30",
+      "cash_amount": 0.28365531801897,
+      "source_url": "https://reportcollection.inion.ru/reports/download/?reportId=4886",
+      "period": "FY2022"
+    },
+    {
+      "record_date": "2024-06-03",
+      "cash_amount": 0.325999263608046,
+      "source_url": "https://reportcollection.inion.ru/reports/download/?reportId=4886",
+      "period": "FY2023"
+    },
+    {
+      "record_date": "2025-06-09",
+      "cash_amount": 0.353756516888506,
+      "source_url": "https://reportcollection.inion.ru/reports/download/?reportId=4886",
+      "period": "FY2024"
+    },
+    {
+      "record_date": "2026-06-09",
+      "cash_amount": 0.321425305784583,
+      "source_url": "https://e-disclosure.azipi.ru/messages/4566500/",
+      "period": "FY2025"
+    }
+  ],
+  "notes": [
+    "2025 issuer annual report, printed p304 / PDF page303: all five historical payments with exact precision.",
+    "2026 amount and record verified by issuer actual-paid disclosure, not recommendation.",
+    "Ordinary-share issue 1-04-33498-E (2014), ISIN RU000A0JPNM1; no split in the reviewed interval.",
+    "2026 interval completeness is manual corroboration with current full Finam history, not an issuer-certified machine feed."
+  ]
+}

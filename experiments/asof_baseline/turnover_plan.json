@@ -1,0 +1,84 @@
+{
+  "recorded_utc": "2026-11-10T12:53:16.101412+00:00",
+  "purpose": "Execution policy comparison with rank forecasts held fixed; no new holdout fitting",
+  "source_git_head": "70b643479917985c9857d4c7be80812d1d746843",
+  "input_sha256": {
+    "target_development_predictions.parquet": "2e09a6f1f8943f0ac8e5a18ad3c5ac616a0d60a2660977d853232a9ad851074e",
+    "quotes.parquet": "054130ffcfca4719cec79a63cf69d163a91a935ad293f0d10e85cc36180c457e",
+    "calendar.parquet": "775ae6ccba3c9547a970a109566e833581abcb060dd556ba9d4914382e40d704"
+  },
+  "prediction_policy": "target_rank",
+  "evaluation_end": "2026-05-06",
+  "variants": [
+    {
+      "name": "daily_top5",
+      "retain_rank": 5,
+      "rebalance_every": 1,
+      "phase": 0
+    },
+    {
+      "name": "daily_buffer10",
+      "retain_rank": 10,
+      "rebalance_every": 1,
+      "phase": 0
+    },
+    {
+      "name": "five_session_buffer10_phase0",
+      "retain_rank": 10,
+      "rebalance_every": 5,
+      "phase": 0
+    },
+    {
+      "name": "five_session_buffer10_phase1",
+      "retain_rank": 10,
+      "rebalance_every": 5,
+      "phase": 1
+    },
+    {
+      "name": "five_session_buffer10_phase2",
+      "retain_rank": 10,
+      "rebalance_every": 5,
+      "phase": 2
+    },
+    {
+      "name": "five_session_buffer10_phase3",
+      "retain_rank": 10,
+      "rebalance_every": 5,
+      "phase": 3
+    },
+    {
+      "name": "five_session_buffer10_phase4",
+      "retain_rank": 10,
+      "rebalance_every": 5,
+      "phase": 4
+    }
+  ],
+  "side_cost_bps": [
+    0,
+    10,
+    25
+  ],
+  "primary_comparison": "daily_buffer10 versus daily_top5 in identical next-open engine",
+  "phase_aggregation": "report all five phases and equal-initial-capital composite NAV; do not select best phase",
+  "legacy_cohort_reference": "descriptive only: differs in holding horizon, close exits and exposure",
+  "corporate_action_scenarios": [
+    "original observed quotes (unresolved assets retained)",
+    "explicit documented conversion-participation scenario if successor histories and ratios verified"
+  ],
+  "dividends": "complete total-return portfolio requires full coverage; partial verified events only used for coverage/label demonstration, not presented as full total return",
+  "report": [
+    "turnover",
+    "net return",
+    "monthly and yearly paired differences",
+    "mean exposure",
+    "max drawdown with stale-mark flag",
+    "unresolved positions"
+  ],
+  "limits": [
+    "adaptive development research",
+    "retrospective ticker universe",
+    "fractional shares, illustrative per-side costs and OHLC fills",
+    "same-open sale proceeds may fund buys under explicit netting assumption",
+    "retained share quantities not reweighted daily"
+  ]
+}

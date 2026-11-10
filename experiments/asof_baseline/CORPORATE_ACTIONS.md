@@ -2,7 +2,14 @@
 
 Checked on 2026-11-10. A complete dividend ledger for the 35-ticker universe
 has **not** been recovered. Existing development scores remain price-return
-scores. The new accounting function does not make that history complete.
+scores. The accounting function does not make that history complete. The reviewed
+fallback now contains 88 events for 11 issuers with explicit bounded intervals
+(nine through 2026-11-06, PHOR/HYDR through 2025-12-31). See
+[recovered evidence](dividend_recovery/README.md); uncovered values remain NaN.
+
+Follow-up: 16 events for SBER/LKOH have now been independently reviewed and
+applied to 2,166 panel labels. The other 33 tickers remain uncovered. See
+[reviewed recovery](dividend_recovery/README.md) for evidence and limitations.
 
 ## Source checks
 

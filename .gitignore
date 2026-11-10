@@ -38,3 +38,12 @@ artifacts/
 *.log
 .DS_Store
 Thumbs.db
+
+# Reproducible execution outputs and downloaded quote histories
+experiments/asof_baseline/*_results/
+experiments/asof_baseline/continuity_data/
+experiments/asof_baseline/dividend_recovery/verified_events.csv
+experiments/asof_baseline/dividend_recovery/verified_coverage.csv
+experiments/asof_baseline/dividend_recovery/coverage_audit.csv
+experiments/asof_baseline/dividend_recovery/recovery_summary.json
+

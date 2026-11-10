@@ -77,6 +77,42 @@ class PortfolioChecks(unittest.TestCase):
         self.assertIsNone(s["annualized_price_return"])
         self.assertEqual(s["unresolved_positions"], 1)
 
+    def test_continuity_quote_values_old_holding_without_new_entry(self):
+        q = self.quotes(tickers=("A",))
+        q["entry_allowed"] = q.TRADEDATE.lt(self.calendar[5])
+        q.loc[q.TRADEDATE.ge(self.calendar[5]), ["OPEN","CLOSE"]] = 110.
+        d,t,s = simulate(self.signals(days=(0,5)),q,self.calendar)
+        self.assertEqual(t.action.tolist(), ["BUY", "SELL", "SKIP_BUY_INELIGIBLE"])
+        self.assertAlmostEqual(s["realized_price_return"], .02)
+        self.assertEqual(s["skipped_ineligible_orders"], 1)
+
+    def test_ineligible_entry_does_not_promote_lower_ranked_stock(self):
+        tickers=tuple("ABCDEF")
+        q = self.quotes(tickers)
+        q["entry_allowed"] = q.ticker.ne("A")
+        d,t,s = simulate(self.signals(tickers=tickers),q,self.calendar)
+        self.assertEqual(set(t.loc[t.action.eq("BUY"), "ticker"]), set("BCDE"))
+        self.assertNotIn("F", t.ticker.tolist())
+        self.assertAlmostEqual(s["realized_price_return"], 0.)
+        self.assertEqual(s["skipped_ineligible_orders"], 1)
+
+    def test_missing_eligibility_fails_closed(self):
+        q = self.quotes()
+        q["entry_allowed"] = pd.Series([True]*len(q), dtype=object)
+        q.loc[1,"entry_allowed"] = None
+        with self.assertRaisesRegex(ValueError, "entry_allowed"):
+            simulate(self.signals(),q,self.calendar)
+
+    def test_same_ticker_conversion_labels_old_receipt_cohort_only(self):
+        event = dict(predecessor="A", successor="A", last_predecessor_session=str(self.calendar[2].date()),
+                     first_tradable_date=str(self.calendar[6].date()), eligibility="credited local custody")
+        q = self.quotes()
+        q.loc[q.TRADEDATE.isin(self.calendar[3:6]), ["OPEN","CLOSE"]] = np.nan
+        _,_,s = simulate(self.signals(days=(0,6)),q,self.calendar,same_ticker_events=[event])
+        self.assertEqual(s["same_ticker_conversion_cohorts"], 1)
+        self.assertEqual(s["same_ticker_conversion_uses"][0]["entry_dates"], [str(self.calendar[1].date())])
+        self.assertEqual(s["delayed_exits"], 1)
+
     def test_suspension_spanning_weeks_keeps_shares_until_observed_exit(self):
         self.calendar = pd.bdate_range("2024-01-01", periods=22)
         q = self.quotes()

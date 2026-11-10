@@ -1,0 +1,43 @@
+{
+  "url": "https://www.sberbank.com/investor-relations/dividends",
+  "retrieved_on": "2026-11-10",
+  "retrieval": "indexed primary issuer page via search; direct download timeout",
+  "rows": [
+    {
+      "payment_year": 2026,
+      "for_year": 2025,
+      "record_date": "20.07.2026",
+      "cash_amount": 37.64
+    },
+    {
+      "payment_year": 2025,
+      "for_year": 2024,
+      "record_date": "18.07.2025",
+      "cash_amount": 34.84
+    },
+    {
+      "payment_year": 2024,
+      "for_year": 2023,
+      "record_date": "11.07.2024",
+      "cash_amount": 33.3
+    },
+    {
+      "payment_year": 2023,
+      "for_year": 2022,
+      "record_date": "11.05.2023",
+      "cash_amount": 25
+    },
+    {
+      "payment_year": 2022,
+      "for_year": 2021,
+      "record_date": null,
+      "cash_amount": 0
+    },
+    {
+      "payment_year": 2021,
+      "for_year": 2020,
+      "record_date": "12.05.2021",
+      "cash_amount": 18.7
+    }
+  ]
+}
