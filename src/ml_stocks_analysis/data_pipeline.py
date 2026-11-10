@@ -72,10 +72,16 @@ REQUEST_DELAY = 0.20   # пауза между страницами одного
 RETRY_DELAY   = 2.0    # базовая пауза при retry
 TIMEOUT_SEC   = 45     # HTTP timeout
 
-# ── Защита от корпоративных событий ─────────────────────────────────────────
-# Однодневное падение CLOSE > порога считается сплитом (а не крэшем).
-# Реальные крэши редко превышают 40% за один день на MOEX.
-SPLIT_GAP_THRESHOLD = 0.40
+# Effective dates and share-unit factors checked against exchange issuer
+# notices. Unknown large moves are surfaced, never auto-labelled as splits.
+CONFIRMED_SPLITS: dict[str, tuple[tuple[str, float], ...]] = {
+    "TRNFP": (("2024-02-21", .01),),
+    "GMKN": (("2024-04-08", .01),),
+    "PLZL": (("2025-03-27", .1),),
+    "VTBR": (("2024-07-15", 5000.),),
+    # First post-split trading day: https://www.moex.com/n99355
+    "T": (("2026-04-17", .1),),
+}
 
 # Физически достижимые границы max-5d таргета:
 #   нижняя: -50% (катастрофический крэш за неделю)
@@ -111,14 +117,17 @@ FEATURE_COLS: list[str] = [
     "CCI_20", "EMA_cross_20_50", "Donchian_pos_20",
     "Beta_IMOEX_60d", "RS_vs_IMOEX_20d", "IVOL_60d",
     "Beta_USDRUB_60d", "RVI_level",
-    "day_of_week", "month", "dte_ex_days", "post_ex_flag_10d",
+    "day_of_week", "month",
 ]
 
 CATEGORICAL_COLS: set[str] = {
     "TSMOM", "MACD_slope_sign", "EMA_cross_20_50",
-    "day_of_week", "month", "post_ex_flag_10d",
+    "day_of_week", "month",
 }
-NORM_COLS: list[str] = [c for c in FEATURE_COLS if c not in CATEGORICAL_COLS]
+# RVI is shared by all stocks on a date. Ranking it cross-sectionally would
+# destroy the actual market-volatility state (and missing RVI must stay NaN).
+NORM_COLS: list[str] = [c for c in FEATURE_COLS
+                        if c not in CATEGORICAL_COLS | {"RVI_level"}]
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -176,14 +185,19 @@ async def _paginate(
     all_rows: list = []
     cols:     list = []
     cursor = 0
+    expected_total: int | None = None
 
     while True:
         data = await _iss_get(session, sem, url, {**base_params, "start": cursor})
         if data is None:
-            break
-        sect = data.get(section, {})
-        rows = sect.get("data", [])
+            raise RuntimeError(f"Incomplete ISS response for {url}: failed at offset {cursor}")
+        sect = data.get(section)
+        if not isinstance(sect, dict) or "data" not in sect or "columns" not in sect:
+            raise RuntimeError(f"Missing ISS section {section} for {url}")
+        rows = sect["data"]
         if not rows:
+            if expected_total is not None and len(all_rows) < expected_total:
+                raise RuntimeError(f"ISS {url}: {len(all_rows)}/{expected_total} rows")
             break
         if not cols:
             cols = sect.get("columns", [])
@@ -191,11 +205,22 @@ async def _paginate(
 
         c_info = data.get(f"{section}.cursor", {}).get("data", [])
         if c_info:
-            total, pagesize = c_info[0][1], c_info[0][2]
+            total, pagesize = int(c_info[0][1]), int(c_info[0][2])
+            if pagesize <= 0 or total < len(all_rows):
+                raise RuntimeError(f"Invalid ISS cursor for {url}: {c_info}")
+            if expected_total is not None and total != expected_total:
+                raise RuntimeError(f"ISS row count changed mid-download for {url}")
+            expected_total = total
             cursor += pagesize
             if cursor >= total:
+                if len(all_rows) != total:
+                    raise RuntimeError(f"ISS {url}: received {len(all_rows)}/{total} rows")
                 break
         else:
+            # One-page ISS responses can omit the cursor. Multi-page endpoints
+            # must include it so that partial downloads never look complete.
+            if len(rows) >= 100:
+                raise RuntimeError(f"ISS cursor missing after full page for {url}")
             break
         await asyncio.sleep(REQUEST_DELAY)
 
@@ -224,7 +249,12 @@ async def fetch_history(
             df[col] = np.nan
         df[col] = pd.to_numeric(df[col], errors="coerce")
 
-    df = df.dropna(subset=["CLOSE"]).query("CLOSE > 0").sort_values("TRADEDATE")
+    ohlc = ["OPEN", "HIGH", "LOW", "CLOSE"]
+    valid = df[ohlc].notna().all(axis=1) & df[ohlc].gt(0).all(axis=1)
+    valid &= df.HIGH.ge(df[ohlc].max(axis=1))
+    valid &= df.LOW.le(df[ohlc].min(axis=1))
+    valid &= df.VOLUME.ge(0) & df.VALUE.ge(0)
+    df = df.loc[valid].sort_values("TRADEDATE")
     # ISS может вернуть несколько строк на одну дату (разные сессии/борды)
     df = df.drop_duplicates(subset=["TRADEDATE"], keep="last")
     df["WAPRICE"]   = df["WAPRICE"].fillna(df["CLOSE"])
@@ -239,21 +269,30 @@ async def fetch_dividends(
 ) -> pd.DataFrame:
     url  = f"{ISS_BASE}/securities/{ticker}/dividends.json"
     data = await _iss_get(session, sem, url)
-    if data is None:
-        return pd.DataFrame()
-    rows = data.get("dividends", {}).get("data", [])
-    cols = data.get("dividends", {}).get("columns", [])
+    if data is None or "dividends" not in data:
+        raise RuntimeError(
+            f"Dividends unavailable for {ticker}: ISS did not return a dividends table. "
+            "Cannot build a dividend-adjusted dataset from unknown payouts."
+        )
+    rows = data["dividends"].get("data", [])
+    cols = data["dividends"].get("columns", [])
+    if not {"registryclosedate", "ex_date", "value"}.issubset(cols):
+        raise RuntimeError(f"Unexpected dividends schema for {ticker}: {cols}")
     if not rows:
         return pd.DataFrame()
 
     df = pd.DataFrame(rows, columns=cols)
     if "registryclosedate" in df.columns:
         df["registryclosedate"] = pd.to_datetime(df["registryclosedate"], errors="coerce")
+    df["ex_date"] = pd.to_datetime(df["ex_date"], errors="coerce")
     if "value" in df.columns:
         df["value"] = pd.to_numeric(df["value"], errors="coerce")
     if "currencyid" in df.columns:
         df = df[df["currencyid"].isin(["RUB", "SUR"]) | df["currencyid"].isna()]
-    return df.dropna(subset=["registryclosedate", "value"]).query("value > 0").reset_index(drop=True)
+    valid = df.dropna(subset=["registryclosedate", "ex_date", "value"]).query("value > 0")
+    if len(valid) != len(df):
+        raise RuntimeError(f"Incomplete dividend events for {ticker}")
+    return valid.reset_index(drop=True)
 
 
 async def fetch_index(
@@ -323,71 +362,38 @@ async def fetch_ticker_data(
 def _detect_and_fix_splits(
     raw: pd.DataFrame,
     divs: pd.DataFrame,
+    ticker: str,
 ) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """
-    Обнаруживает сплиты акций по однодневным ценовым разрывам > SPLIT_GAP_THRESHOLD
-    и корректирует исторические цены OHLC + суммы дивидендов до даты сплита.
-
-    Проблема: ISS API возвращает исторические цены без корректировки на сплиты.
-    Пример: TRNFP 100:1 (январь 2024) — цена 140 000 → 1 400.
-    Без коррекции backward_adjust получает аномальный ADJ_CLOSE ≈ 0,
-    что делает таргет = adj_high / ~0 = ∞.
-
-    Алгоритм:
-      1. Находим дни, где CLOSE падает > SPLIT_GAP_THRESHOLD за одну торговую сессию.
-      2. Масштабируем все цены ДО сплита на коэффициент сплита (приводим к пост-сплит масштабу).
-      3. Масштабируем суммы дивидендов с ex_date ДО сплита на тот же коэффициент
-         (дивиденды в API хранятся в доступных-на-тот-момент единицах — старых).
-
-    Возвращает (скорректированный raw, скорректированный divs).
-    """
+    """Convert only verified historical split/reverse-split share units."""
     raw  = raw.copy().sort_values("TRADEDATE").reset_index(drop=True)
     divs = divs.copy() if not divs.empty else divs
-
-    # Предварительно вычисляем ex_date, если ещё нет — нужно для коррекции дивидендов
-    if (not divs.empty
-            and "registryclosedate" in divs.columns
-            and "ex_date" not in divs.columns):
-        divs["ex_date"] = divs["registryclosedate"].apply(_get_ex_date)
-
-    close       = raw["CLOSE"].astype(float).replace(0, np.nan)
-    daily_ratio = (close / close.shift(1)).fillna(1.0)
-    split_days  = raw.index[daily_ratio < (1.0 - SPLIT_GAP_THRESHOLD)].tolist()
-
-    if not split_days:
-        return raw, divs
-
-    for idx in split_days:
-        split_ratio = float(daily_ratio.iloc[idx])  # ~0.01 для 100:1 сплита
-        split_date  = raw.loc[idx, "TRADEDATE"]
-        pre_mask    = raw.index < idx
-
-        # Приводим исторические цены к пост-сплит масштабу
+    for date, factor in CONFIRMED_SPLITS.get(ticker, ()):
+        effective = pd.Timestamp(date)
+        previous = raw.loc[raw.TRADEDATE < effective, "CLOSE"].dropna()
+        following = raw.loc[raw.TRADEDATE >= effective, "CLOSE"].dropna()
+        if previous.empty or following.empty:
+            continue
+        ratio = float(following.iloc[0] / previous.iloc[-1])
+        if .5 < ratio < 2:
+            # The provider may have already applied the unit conversion.
+            continue
+        if not .5 < ratio / factor < 2:
+            raise RuntimeError(f"{ticker} {date}: unexpected split ratio {ratio:g}")
+        mask = raw.TRADEDATE < effective
         for col in ("OPEN", "HIGH", "LOW", "CLOSE", "WAPRICE"):
-            if col in raw.columns:
-                raw.loc[pre_mask, col] = (
-                    raw.loc[pre_mask, col].astype(float) * split_ratio
-                )
-
-        # Обновляем close для корректного обнаружения последующих сплитов
-        close       = raw["CLOSE"].astype(float).replace(0, np.nan)
-        daily_ratio = (close / close.shift(1)).fillna(1.0)
-
-        # Масштабируем дивиденды до сплита (были в пре-сплит единицах)
-        n_divs_fixed = 0
-        if not divs.empty and "ex_date" in divs.columns and "value" in divs.columns:
-            pre_div_mask = divs["ex_date"] < split_date
-            n_divs_fixed = int(pre_div_mask.sum())
-            divs.loc[pre_div_mask, "value"] = (
-                divs.loc[pre_div_mask, "value"].astype(float) * split_ratio
-            )
-
-        logger.info(
-            "    [сплит] %s: ratio≈%.4f (≈%dx), "
-            "скорректировано %d дней цен + %d дивидендов",
-            split_date.date(), split_ratio, round(1.0 / max(split_ratio, 1e-9)),
-            int(pre_mask.sum()), n_divs_fixed,
-        )
+            raw.loc[mask, col] *= factor
+        raw.loc[mask, "VOLUME"] /= factor
+        if not divs.empty:
+            # Dividend events need explicit ex-dates before any value conversion.
+            if "ex_date" not in divs.columns:
+                raise RuntimeError(f"{ticker}: dividends lack verified ex_date")
+            divs.loc[divs.ex_date < effective, "value"] *= factor
+        logger.info("Verified %s split on %s, share factor %g", ticker, date, factor)
+    # Corporate actions often suspend trading: compare observed prices across gaps.
+    jumps = raw.CLOSE.dropna().pct_change(fill_method=None).abs().reindex(raw.index).fillna(0) > .70
+    if jumps.any():
+        dates = raw.loc[jumps, "TRADEDATE"].dt.strftime("%Y-%m-%d").tolist()
+        raise RuntimeError(f"{ticker}: unverified >70% close change on {dates}")
 
     return raw, divs
 
@@ -395,13 +401,6 @@ def _detect_and_fix_splits(
 # ═══════════════════════════════════════════════════════════════════════════════
 # DIVIDEND ADJUSTMENT
 # ═══════════════════════════════════════════════════════════════════════════════
-
-def _get_ex_date(record_date: pd.Timestamp) -> pd.Timestamp:
-    """registryclosedate → ex-dividend дата (T+1 после 24.07.2023, T+2 до)."""
-    offset = (pd.offsets.BusinessDay(1) if record_date >= pd.Timestamp("2023-07-24")
-              else pd.offsets.BusinessDay(2))
-    return record_date - offset
-
 
 def backward_adjust(df: pd.DataFrame, divs: pd.DataFrame) -> pd.DataFrame:
     """
@@ -418,11 +417,11 @@ def backward_adjust(df: pd.DataFrame, divs: pd.DataFrame) -> pd.DataFrame:
     for col in ["OPEN", "HIGH", "LOW", "CLOSE", "WAPRICE"]:
         df[f"ADJ_{col}"] = df[col].astype(float).copy()
 
-    if divs.empty or "registryclosedate" not in divs.columns:
+    if divs.empty:
         return df
-
-    valid = (divs[["registryclosedate", "value"]].dropna().query("value > 0").copy())
-    valid["ex_date"] = valid["registryclosedate"].apply(_get_ex_date)
+    if not {"ex_date", "value"}.issubset(divs.columns):
+        raise ValueError("Dividend adjustment requires verified first ex_date")
+    valid = divs[["ex_date", "value"]].dropna().query("value > 0").copy()
     valid = valid.sort_values("ex_date", ascending=False)
 
     raw_close_mean = df["CLOSE"].replace(0, np.nan).mean()
@@ -464,7 +463,10 @@ def _wilder_rsi(close: pd.Series, period: int = 14) -> pd.Series:
     d = close.diff()
     g = d.clip(lower=0).ewm(alpha=1/period, min_periods=period, adjust=False).mean()
     l = (-d).clip(lower=0).ewm(alpha=1/period, min_periods=period, adjust=False).mean()
-    return 100 - (100 / (1 + g / l.replace(0, np.nan)))
+    out = 100 - (100 / (1 + g / l.replace(0, np.nan)))
+    out = out.mask(l.eq(0) & g.gt(0), 100.0)
+    out = out.mask(l.eq(0) & g.eq(0), 50.0)
+    return out
 
 
 def _wilder_atr(high: pd.Series, low: pd.Series, close: pd.Series, period: int = 14) -> pd.Series:
@@ -532,15 +534,15 @@ def calculate_features(
     f: dict[str, pd.Series] = {}
 
     # A. Momentum
-    f["R1"]            = c.pct_change(1).shift(1)
-    f["R5"]            = c.pct_change(5).shift(1)
-    f["R21"]           = c.pct_change(21).shift(1)
-    f["R63"]           = c.pct_change(63).shift(1)
-    f["R126"]          = c.pct_change(126).shift(1)
+    f["R1"]            = c.pct_change(1, fill_method=None).shift(1)
+    f["R5"]            = c.pct_change(5, fill_method=None).shift(1)
+    f["R21"]           = c.pct_change(21, fill_method=None).shift(1)
+    f["R63"]           = c.pct_change(63, fill_method=None).shift(1)
+    f["R126"]          = c.pct_change(126, fill_method=None).shift(1)
     f["R12_1"]         = c.shift(21) / c.shift(252).replace(0, np.nan) - 1
     f["TSMOM"]         = np.sign(f["R63"])
     f["dist_52w_high"] = (c - h.rolling(252).max()) / h.rolling(252).max().replace(0, np.nan)
-    r5 = c.pct_change(5)
+    r5 = c.pct_change(5, fill_method=None)
     f["price_accel"]   = r5 - r5.shift(5)
 
     # B. Mean Reversion
@@ -585,7 +587,8 @@ def calculate_features(
     # F. Technical
     macd   = c.ewm(span=12,adjust=False).mean() - c.ewm(span=26,adjust=False).mean()
     sig    = macd.ewm(span=9, adjust=False).mean()
-    f["MACD_hist"]       = macd - sig
+    # Price-invariant across different share denominations and stock splits.
+    f["MACD_hist"]       = (macd - sig) / c
     f["MACD_slope_sign"] = np.sign(f["MACD_hist"]) - np.sign(f["MACD_hist"].shift(1))
     f["Stoch_K_14"]      = ((c - l.rolling(14).min())
                              / (h.rolling(14).max()-l.rolling(14).min()).replace(0,np.nan)*100)
@@ -620,22 +623,9 @@ def add_calendar_features(feat_df: pd.DataFrame, divs: pd.DataFrame) -> pd.DataF
     out = feat_df.copy()
     out["day_of_week"]      = out["TRADEDATE"].dt.dayofweek
     out["month"]            = out["TRADEDATE"].dt.month
-    out["dte_ex_days"]      = 999
-    out["post_ex_flag_10d"] = 0
-    if divs.empty or "registryclosedate" not in divs.columns:
-        return out
-    ex  = np.array(divs["registryclosedate"].dropna().apply(_get_ex_date)
-                   .sort_values().values, dtype="datetime64[D]")
-    dt  = np.array(out["TRADEDATE"].values, dtype="datetime64[D]")
-    dte, post = [], []
-    for d in dt:
-        fut = ex[ex > d]
-        dte.append(int((fut.min()-d)/np.timedelta64(1,"D")) if len(fut) else 999)
-        pas = ex[ex <= d]
-        ds  = int((d-pas.max())/np.timedelta64(1,"D")) if len(pas) else 999
-        post.append(1 if ds <= 10 else 0)
-    out["dte_ex_days"]      = np.minimum(dte, 999)
-    out["post_ex_flag_10d"] = post
+    # Historical ex-dates alone cannot reveal whether an upcoming event was
+    # announced by this decision time. Add event features only after storing
+    # announcement/availability timestamps from a verified source.
     return out
 
 
@@ -649,8 +639,10 @@ def calculate_target(
     target[valid] = future[valid].max(axis=1) / adj_close[valid] - 1
 
     # Маскируем таргет вокруг ex-dividend дат (±7 дней до ex_date)
-    if not divs.empty and "registryclosedate" in divs.columns:
-        for ex in divs["registryclosedate"].dropna().apply(_get_ex_date):
+    if not divs.empty:
+        if "ex_date" not in divs.columns:
+            raise ValueError("Dividend target masking requires first ex_date")
+        for ex in pd.to_datetime(divs["ex_date"]).dropna():
             mask = (target.index >= ex - pd.Timedelta(days=7)) & (target.index < ex)
             target[mask] = np.nan
 
@@ -689,7 +681,10 @@ def normalize_cs(df: pd.DataFrame, cols: list[str]) -> pd.DataFrame:
     def _rz(x):
         r = x.rank(pct=True, na_option="keep")
         mu, sigma = r.mean(), r.std()
-        return (r-mu)/sigma if sigma > 0 else pd.Series(0.0, index=x.index)
+        if pd.notna(sigma) and sigma > 0:
+            return (r - mu) / sigma
+        # Constant observed values are neutral; failed source data stay missing.
+        return pd.Series(np.where(r.notna(), 0.0, np.nan), index=x.index)
     for col in cols:
         df[col] = df.groupby("TRADEDATE")[col].transform(_rz)
     return df
@@ -713,6 +708,7 @@ def process_ticker(
     imoex_ret: pd.Series | None,
     usdrub_ret: pd.Series | None,
     rvi_series: pd.Series | None,
+    trading_calendar: pd.DatetimeIndex | None = None,
 ) -> pd.DataFrame | None:
     if raw.empty or len(raw) < 300:
         logger.warning("%s: %d строк, пропуск", ticker, len(raw))
@@ -720,7 +716,13 @@ def process_ticker(
 
     # ── Коррекция сплитов ДО дивидендной корректировки ──────────────────────
     # Должна выполняться первой: backward_adjust предполагает единый ценовой масштаб.
-    raw, divs = _detect_and_fix_splits(raw, divs)
+    raw, divs = _detect_and_fix_splits(raw, divs, ticker)
+    if trading_calendar is not None:
+        # Align *before* shifting the five-session target; a stopped stock
+        # cannot acquire a 40-session label by skipping its missing rows.
+        raw = (raw.drop_duplicates("TRADEDATE", keep="last")
+               .set_index("TRADEDATE").reindex(trading_calendar)
+               .rename_axis("TRADEDATE").reset_index())
 
     adj      = backward_adjust(raw, divs)
     feat_df  = calculate_features(adj, imoex_ret, usdrub_ret, rvi_series)
@@ -733,7 +735,9 @@ def process_ticker(
     out.insert(2, "sector", TICKERS_SECTORS.get(ticker, "OTHER"))
     out      = out[out["TRADEDATE"] >= DATA_START].reset_index(drop=True)
     min_v    = int(len(FEATURE_COLS) * (1 - NAN_THRESHOLD))
-    out      = out.dropna(subset=FEATURE_COLS, thresh=min_v).dropna(subset=["target"])
+    # Keep rows without a future outcome until after cross-sectional ranks are
+    # computed: today's inputs cannot depend on future label availability.
+    out      = out.dropna(subset=FEATURE_COLS, thresh=min_v)
     if len(out) < 50:
         logger.warning("%s: после фильтрации %d строк, пропуск", ticker, len(out))
         return None
@@ -789,11 +793,23 @@ async def build_all_datasets_async() -> None:
     t_io = time.perf_counter()
     logger.info("=== [3/4] Обработка тикеров (pandas) — I/O занял %.1f сек ===", t_io - t0)
 
+    # An index may publish an unchanged value on an equity holiday. Require a
+    # real stock observation and an IMOEX value for a decision/exit session.
+    stock_dates = set()
+    for raw, _ in raw_results:
+        if not raw.empty:
+            stock_dates.update(pd.to_datetime(raw.loc[raw.CLOSE.gt(0), "TRADEDATE"]))
+    market_dates = set(pd.to_datetime(imoex_df.TRADEDATE))
+    trading_calendar = pd.DatetimeIndex(sorted(stock_dates & market_dates))
+    if not len(trading_calendar):
+        raise RuntimeError("No stock/market trading sessions available")
+
     frames: list[pd.DataFrame] = []
     failed: list[str] = []
     for ticker, (raw, divs) in zip(tickers, raw_results):
         try:
-            frame = process_ticker(ticker, raw, divs, imoex_ret, usdrub_ret, rvi_series)
+            frame = process_ticker(ticker, raw, divs, imoex_ret, usdrub_ret,
+                                   rvi_series, trading_calendar)
             if frame is not None:
                 frames.append(frame)
         except Exception as exc:
@@ -812,6 +828,7 @@ async def build_all_datasets_async() -> None:
 
     # Market
     pnorm   = normalize_cs(winsorize_cs(panel, NORM_COLS), NORM_COLS)
+    pnorm   = pnorm.dropna(subset=["target"])
     mkt_p   = OUTPUT_DIR / "market" / "dataset_market.parquet"
     pnorm.to_parquet(mkt_p, index=False, engine="pyarrow", compression="snappy")
     logger.info("  market: %d строк | %d тикеров | %.1f MB",
@@ -823,6 +840,7 @@ async def build_all_datasets_async() -> None:
         if sd["ticker"].nunique() < 2 or len(sd) < 200:
             continue
         sn = normalize_cs(winsorize_cs(sd.copy(), NORM_COLS), NORM_COLS)
+        sn = sn.dropna(subset=["target"])
         sn.to_parquet(OUTPUT_DIR/"sectors"/f"dataset_{sector}.parquet",
                       index=False, engine="pyarrow", compression="snappy")
         logger.info("  %s: %d строк", sector, len(sn))

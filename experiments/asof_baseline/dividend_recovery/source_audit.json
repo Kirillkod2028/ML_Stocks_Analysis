@@ -1,0 +1,963 @@
+{
+  "sources": [
+    {
+      "url": "https://www.sberbank.com/investor-relations/dividends",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "cash_record_history"
+      ],
+      "event_ids": [
+        "SBER_FY2020_2021-05-12",
+        "SBER_FY2022_2023-05-11",
+        "SBER_FY2023_2024-07-11",
+        "SBER_FY2024_2025-07-18",
+        "SBER_FY2025_2026-07-20"
+      ],
+      "review_access": "issuer page via indexed web search; direct download failed 503/timeout; independent broker calendar corroborates all five events",
+      "snapshot": "snapshots/sber_history_table_facts.json",
+      "retrieved_primary_page_reference": "turn58search0"
+    },
+    {
+      "url": "https://bcs.ru/markets/sber/tqbr/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "SBER_FY2020_2021-05-12",
+        "SBER_FY2023_2024-07-11"
+      ],
+      "review_access": "web search and/or extracted page",
+      "retrieved_page_reference": "turn54view2"
+    },
+    {
+      "url": "https://www.sberbank.com/investor-relations/corporate-governance/annual-meeting-2023?tab=results",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "SBER_FY2022_2023-05-11"
+      ],
+      "review_access": "web search and/or extracted page"
+    },
+    {
+      "url": "https://www.sberbank.com/kom/ru/investor-relations/corporate-governance/annual-meeting-2025",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "SBER_FY2024_2025-07-18"
+      ],
+      "review_access": "web search and/or extracted page"
+    },
+    {
+      "url": "https://www.sberbank.com/kom/ru/investor-relations/corporate-governance/annual-meeting-2026",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "SBER_FY2025_2026-07-20"
+      ],
+      "review_access": "web search and/or extracted page"
+    },
+    {
+      "url": "https://lukoil.ru/InvestorAndShareholderCenter/Securities/Dividends",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "cash_record_history"
+      ],
+      "event_ids": [
+        "LKOH_FY2020_2021-07-05",
+        "LKOH_9M2021_2021-12-21",
+        "LKOH_retained2021_2022-12-21",
+        "LKOH_9M2022_2022-12-21",
+        "LKOH_FY2022_2023-06-05",
+        "LKOH_9M2023_2023-12-17",
+        "LKOH_FY2023_2024-05-07",
+        "LKOH_9M2024_2024-12-17",
+        "LKOH_FY2024_2025-06-03",
+        "LKOH_9M2025_2026-01-12",
+        "LKOH_FY2025_2026-05-04"
+      ],
+      "review_access": "direct issuer HTML, tables reconciled manually",
+      "snapshot": "snapshots/lukoil_history_table_facts.json",
+      "snapshot_sha256": "f1fdb085977433e9fd45ce191191c0a214852506fdcbfff0f1ac20b218452646",
+      "local_raw_snapshot": "snapshots/1aca9c28f79d.html"
+    },
+    {
+      "url": "https://bcs-express.ru/novosti-i-analitika/dividendy/lukoil-tgk-1-mosenergo-fosagro-i-dr-segodnia-poslednii-den-s-dividendami",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "LKOH_FY2020_2021-07-05"
+      ],
+      "review_access": "web search and/or extracted page"
+    },
+    {
+      "url": "https://bcs-express.ru/novosti-i-analitika/mneniia/dividendnyi-gep-v-lukoile-zhdat-li-bystrogo-zakrytiia",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "LKOH_9M2021_2021-12-21"
+      ],
+      "review_access": "web search and/or extracted page"
+    },
+    {
+      "url": "https://bcs-express.ru/novosti-i-analitika/dividendy/lukoil-anonsiroval-dividendy-aktsii-ushli-v-minus",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "LKOH_retained2021_2022-12-21",
+        "LKOH_9M2022_2022-12-21"
+      ],
+      "review_access": "web search and/or extracted page"
+    },
+    {
+      "url": "https://sinara-finance.ru/upload/iblock/9ce/x25e2hu6m3h1zxds2jmsek0h1ckgp4vc/Sinara_Daily_010623_RUS.pdf",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "LKOH_FY2022_2023-06-05"
+      ],
+      "review_access": "web search and/or extracted page"
+    },
+    {
+      "url": "https://bcs-express.ru/novosti-i-analitika/rossiyskiy-rynok/lukoil-obieiavil-promezhutochnye-dividendy",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "LKOH_9M2023_2023-12-17"
+      ],
+      "review_access": "web search and/or extracted page"
+    },
+    {
+      "url": "https://bcs-express.ru/novosti-i-analitika/dividendy/lukoil-obieiavil-final-nye-dividendy-za-2023",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "LKOH_FY2023_2024-05-07"
+      ],
+      "review_access": "web search and/or extracted page"
+    },
+    {
+      "url": "https://bcs.ru/markets/lkoh/tqbr/dividends",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "LKOH_9M2024_2024-12-17",
+        "LKOH_FY2024_2025-06-03",
+        "LKOH_9M2025_2026-01-12",
+        "LKOH_FY2025_2026-05-04"
+      ],
+      "review_access": "web search and/or extracted page",
+      "retrieved_page_reference": "turn54view1"
+    },
+    {
+      "url": "https://www.moex.com/n33827?nt=101",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "MOEX_FY2020_2021-05-14"
+      ],
+      "review_access": "indexed primary disclosure via web search and/or extraction"
+    },
+    {
+      "url": "https://www.moex.com/n56516",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "MOEX_FY2022_2023-06-16"
+      ],
+      "review_access": "indexed primary disclosure via web search and/or extraction"
+    },
+    {
+      "url": "https://www.moex.com/n69868?nt=101",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "MOEX_FY2023_2024-06-14"
+      ],
+      "review_access": "indexed primary disclosure via web search and/or extraction"
+    },
+    {
+      "url": "https://www.moex.com/n91498",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "MOEX_FY2024_2025-07-10"
+      ],
+      "review_access": "indexed primary disclosure via web search and/or extraction"
+    },
+    {
+      "url": "https://www.moex.com/n101427?nt=106",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "MOEX_FY2025_2026-07-09"
+      ],
+      "review_access": "indexed primary disclosure via web search and/or extraction"
+    },
+    {
+      "url": "https://www.moex.com/ru/about/investoram-i-aktsioneram/informatsiya-ob-aktsiyah/dividendy-i-aktsii",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "complete_annual_history"
+      ],
+      "event_ids": [
+        "MOEX_FY2020_2021-05-14",
+        "MOEX_FY2022_2023-06-16",
+        "MOEX_FY2023_2024-06-14",
+        "MOEX_FY2024_2025-07-10",
+        "MOEX_FY2025_2026-07-09"
+      ],
+      "snapshot": "snapshots/moex_history_table_facts.json",
+      "review_access": "indexed primary issuer history"
+    },
+    {
+      "url": "https://www.finam.ru/quote/moex/moex/dividends/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "MOEX_FY2020_2021-05-14",
+        "MOEX_FY2022_2023-06-16",
+        "MOEX_FY2023_2024-06-14",
+        "MOEX_FY2024_2025-07-10",
+        "MOEX_FY2025_2026-07-09"
+      ],
+      "review_access": "web extraction; not an authoritative record-date or amount source",
+      "review_notes": [
+        "Issuer history explicitly reports no dividend for FY2021, paid in 2022.",
+        "Issuer ordinary share ISIN RU000A0JR4A1; no split in the reviewed interval."
+      ]
+    },
+    {
+      "url": "https://storage.ir.mts.ru/mts-ir/images/documents/results/MTS-Q3-2021-Results-Press-Release.pdf",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "MTSS_FY2020_2021-07-08"
+      ],
+      "review_access": "indexed primary disclosure via web search and/or extraction"
+    },
+    {
+      "url": "https://storage.ir.mts.ru/mts-ir/images/documents/otchet_ob_itogah_golosovania_boca_30092021.pdf",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "MTSS_1H2021_2021-10-12"
+      ],
+      "review_access": "indexed primary disclosure via web search and/or extraction"
+    },
+    {
+      "url": "https://ir.mts.ru/news_and_events/corporate_releases/details/424",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "MTSS_FY2021_2022-07-12"
+      ],
+      "review_access": "indexed primary disclosure via web search and/or extraction"
+    },
+    {
+      "url": "https://ir.mts.ru/news_and_events/corporate_releases/details/741873",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "MTSS_FY2022_2023-06-29"
+      ],
+      "review_access": "indexed primary disclosure via web search and/or extraction"
+    },
+    {
+      "url": "https://ir.mts.ru/news_and_events/corporate_releases/details/741912",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "MTSS_FY2023_2024-07-16"
+      ],
+      "review_access": "indexed primary disclosure via web search and/or extraction"
+    },
+    {
+      "url": "https://ir.mts.ru/news_and_events/corporate_releases/details/742271",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "MTSS_FY2024_2025-07-07"
+      ],
+      "review_access": "indexed primary disclosure via web search and/or extraction"
+    },
+    {
+      "url": "https://ir.mts.ru/news_and_events/corporate_releases/details/742426",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "MTSS_FY2025_2026-07-09"
+      ],
+      "review_access": "indexed primary disclosure via web search and/or extraction"
+    },
+    {
+      "url": "https://ir.mts.ru/investors/shares/dividends",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "complete_annual_history"
+      ],
+      "event_ids": [
+        "MTSS_FY2020_2021-07-08",
+        "MTSS_1H2021_2021-10-12",
+        "MTSS_FY2021_2022-07-12",
+        "MTSS_FY2022_2023-06-29",
+        "MTSS_FY2023_2024-07-16",
+        "MTSS_FY2024_2025-07-07",
+        "MTSS_FY2025_2026-07-09"
+      ],
+      "snapshot": "snapshots/mtss_history_table_facts.json",
+      "review_access": "indexed primary issuer history"
+    },
+    {
+      "url": "https://www.finam.ru/quote/moex/mtss/dividends/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "MTSS_FY2020_2021-07-08",
+        "MTSS_1H2021_2021-10-12",
+        "MTSS_FY2021_2022-07-12",
+        "MTSS_FY2022_2023-06-29",
+        "MTSS_FY2023_2024-07-16",
+        "MTSS_FY2024_2025-07-07",
+        "MTSS_FY2025_2026-07-09"
+      ],
+      "review_access": "web extraction; not an authoritative record-date or amount source",
+      "review_notes": [
+        "Finam mislabels record dates 2021-10-11 and 2022-07-11; primary approved resolutions establish 2021-10-12 and 2022-07-12. Finam last-cum dates remain corroborated.",
+        "Amounts are per ordinary share of nominal RUB 0.1, not ADR (two ordinary shares); no split in the reviewed interval.",
+        "Issuer annual totals include 2026; proposed future January 2027 distribution is outside this interval."
+      ]
+    },
+    {
+      "url": "https://reportcollection.inion.ru/reports/download/?reportId=4886",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "IRAO_FY2020_2021-06-07"
+      ],
+      "review_access": "indexed primary issuer report/disclosure, or completed NSD bulletin"
+    },
+    {
+      "url": "https://reportcollection.inion.ru/reports/download/?reportId=4886",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "IRAO_FY2021_2022-06-10"
+      ],
+      "review_access": "indexed primary issuer report/disclosure, or completed NSD bulletin"
+    },
+    {
+      "url": "https://reportcollection.inion.ru/reports/download/?reportId=4886",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "IRAO_FY2022_2023-05-30"
+      ],
+      "review_access": "indexed primary issuer report/disclosure, or completed NSD bulletin"
+    },
+    {
+      "url": "https://reportcollection.inion.ru/reports/download/?reportId=4886",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "IRAO_FY2023_2024-06-03"
+      ],
+      "review_access": "indexed primary issuer report/disclosure, or completed NSD bulletin"
+    },
+    {
+      "url": "https://reportcollection.inion.ru/reports/download/?reportId=4886",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "IRAO_FY2024_2025-06-09"
+      ],
+      "review_access": "indexed primary issuer report/disclosure, or completed NSD bulletin"
+    },
+    {
+      "url": "https://e-disclosure.azipi.ru/messages/4566500/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "IRAO_FY2025_2026-06-09"
+      ],
+      "review_access": "indexed primary issuer report/disclosure, or completed NSD bulletin"
+    },
+    {
+      "url": "https://reportcollection.inion.ru/reports/download/?reportId=4886",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "history"
+      ],
+      "event_ids": [
+        "IRAO_FY2020_2021-06-07",
+        "IRAO_FY2021_2022-06-10",
+        "IRAO_FY2022_2023-05-30",
+        "IRAO_FY2023_2024-06-03",
+        "IRAO_FY2024_2025-06-09",
+        "IRAO_FY2025_2026-06-09"
+      ],
+      "snapshot": "snapshots/irao_history_table_facts.json",
+      "review_access": "primary issuer annual report hosted by archive/registrar"
+    },
+    {
+      "url": "https://www.finam.ru/quote/moex/irao/dividends/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum",
+        "manual_completeness_crosscheck"
+      ],
+      "event_ids": [
+        "IRAO_FY2020_2021-06-07",
+        "IRAO_FY2021_2022-06-10",
+        "IRAO_FY2022_2023-05-30",
+        "IRAO_FY2023_2024-06-03",
+        "IRAO_FY2024_2025-06-09",
+        "IRAO_FY2025_2026-06-09"
+      ],
+      "review_access": "web extracted current history"
+    },
+    {
+      "url": "https://region-dk.ru/news/72415/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "GAZP_FY2020_2021-07-15"
+      ],
+      "review_access": "indexed primary issuer report/disclosure, or completed NSD bulletin"
+    },
+    {
+      "url": "https://www.e-disclosure.ru/portal/event.aspx?EventId=T2-CRv3-A4F06Snc-Cnengp2A-B-B",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "approved_cash_record"
+      ],
+      "event_ids": [
+        "GAZP_1H2022_2022-10-11"
+      ],
+      "review_access": "indexed primary issuer report/disclosure, or completed NSD bulletin"
+    },
+    {
+      "url": "https://draga.ru/wp-content/uploads/2025/06/2.-go-2024.pdf",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "history"
+      ],
+      "event_ids": [
+        "GAZP_FY2020_2021-07-15",
+        "GAZP_1H2022_2022-10-11"
+      ],
+      "snapshot": "snapshots/gazp_history_table_facts.json",
+      "review_access": "primary issuer annual report hosted by archive/registrar"
+    },
+    {
+      "url": "https://www.finam.ru/quote/moex/gazp/dividends/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum",
+        "manual_completeness_crosscheck"
+      ],
+      "event_ids": [
+        "GAZP_FY2020_2021-07-15",
+        "GAZP_1H2022_2022-10-11"
+      ],
+      "review_access": "web extracted current history"
+    },
+    {
+      "url": "https://draga.ru/wp-content/uploads/2025/06/2.-go-2024.pdf",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "no_annual_dividend"
+      ],
+      "reporting_period": "FY2021",
+      "review_access": "issuer report or completed AGM disclosure/NSD bulletin"
+    },
+    {
+      "url": "https://draga.ru/wp-content/uploads/2025/06/2.-go-2024.pdf",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "no_annual_dividend"
+      ],
+      "reporting_period": "FY2023",
+      "review_access": "issuer report or completed AGM disclosure/NSD bulletin"
+    },
+    {
+      "url": "https://depository.uralsib.ru/info/event_27062025200555_3762442.pdf",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "no_annual_dividend"
+      ],
+      "reporting_period": "FY2024",
+      "review_access": "issuer report or completed AGM disclosure/NSD bulletin"
+    },
+    {
+      "url": "https://www.e-disclosure.ru/portal/event.aspx?EventId=v9YSWy9zoUuHSFkCD0TG6A-B-B&q=",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "no_annual_dividend"
+      ],
+      "reporting_period": "FY2025",
+      "review_access": "issuer report or completed AGM disclosure/NSD bulletin"
+    },
+    {
+      "url": "https://www.rosneft.ru/Investors/dividends/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "cash_record_history"
+      ],
+      "event_ids": [
+        "ROSN_FY2020_2021-06-15",
+        "ROSN_H12021_2021-10-11",
+        "ROSN_FY2021_2022-07-11",
+        "ROSN_9M2022_2023-01-12",
+        "ROSN_FY2022_2023-07-11",
+        "ROSN_9M2023_2024-01-11",
+        "ROSN_FY2023_2024-07-09",
+        "ROSN_9M2024_2025-01-10",
+        "ROSN_FY2024_2025-07-20",
+        "ROSN_9M2025_2026-01-12",
+        "ROSN_FY2025_2026-07-09"
+      ],
+      "snapshot": "snapshots/rosn_history_table_facts.json",
+      "review_access": "Issuer indexed page and focused web reads; ROSN direct HTTP 503 and web open timeout, indexed issuer table available; Finam full extracted historical calendar"
+    },
+    {
+      "url": "https://www.finam.ru/quote/moex/rosn/dividends/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "ROSN_FY2020_2021-06-15",
+        "ROSN_H12021_2021-10-11",
+        "ROSN_FY2021_2022-07-11",
+        "ROSN_9M2022_2023-01-12",
+        "ROSN_FY2022_2023-07-11",
+        "ROSN_9M2023_2024-01-11",
+        "ROSN_FY2023_2024-07-09",
+        "ROSN_9M2024_2025-01-10",
+        "ROSN_FY2024_2025-07-20",
+        "ROSN_9M2025_2026-01-12",
+        "ROSN_FY2025_2026-07-09"
+      ],
+      "review_access": "web extraction"
+    },
+    {
+      "url": "https://www.novatek.ru/ru/investors/dividends/payments/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "cash_record_history"
+      ],
+      "event_ids": [
+        "NVTK_H12021_2021-10-11",
+        "NVTK_FY2021_2022-05-05",
+        "NVTK_H12022_2022-10-09",
+        "NVTK_FY2022_2023-05-03",
+        "NVTK_H12023_2023-10-10",
+        "NVTK_FY2023_2024-03-26",
+        "NVTK_H12024_2024-10-11",
+        "NVTK_FY2024_2025-04-28",
+        "NVTK_H12025_2025-10-06",
+        "NVTK_FY2025_2026-04-13"
+      ],
+      "snapshot": "snapshots/nvtk_history_table_facts.json",
+      "review_access": "Issuer indexed page and focused web reads; ROSN direct HTTP 503 and web open timeout, indexed issuer table available; Finam full extracted historical calendar"
+    },
+    {
+      "url": "https://www.finam.ru/quote/moex/nvtk/dividends/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "NVTK_FY2020_2021-05-07",
+        "NVTK_H12021_2021-10-11",
+        "NVTK_FY2021_2022-05-05",
+        "NVTK_H12022_2022-10-09",
+        "NVTK_FY2022_2023-05-03",
+        "NVTK_H12023_2023-10-10",
+        "NVTK_FY2023_2024-03-26",
+        "NVTK_H12024_2024-10-11",
+        "NVTK_FY2024_2025-04-28",
+        "NVTK_H12025_2025-10-06",
+        "NVTK_FY2025_2026-04-13",
+        "NVTK_H12026_2026-10-12"
+      ],
+      "review_access": "web extraction"
+    },
+    {
+      "url": "https://www.bspb.ru/investors/share/dividends",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "cash_record_history"
+      ],
+      "event_ids": [
+        "BSPB_FY2020_2021-06-07",
+        "BSPB_FY2021_1H2022_2022-08-29",
+        "BSPB_FY2022_2023-05-10",
+        "BSPB_1H2023_2023-10-09",
+        "BSPB_FY2023_2024-05-06",
+        "BSPB_1H2024_2024-09-30",
+        "BSPB_FY2024_2025-05-05",
+        "BSPB_1H2025_2025-10-06",
+        "BSPB_FY2025_2026-05-12",
+        "BSPB_1H2026_2026-10-05"
+      ],
+      "snapshot": "snapshots/bspb_history_table_facts.json",
+      "review_access": "primary indexed extraction / issuer HTML, broker calendar crosscheck"
+    },
+    {
+      "url": "https://www.finam.ru/quote/moex/bspb/dividends/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "BSPB_FY2020_2021-06-07",
+        "BSPB_FY2021_1H2022_2022-08-29",
+        "BSPB_FY2022_2023-05-10",
+        "BSPB_1H2023_2023-10-09",
+        "BSPB_FY2023_2024-05-06",
+        "BSPB_1H2024_2024-09-30",
+        "BSPB_FY2024_2025-05-05",
+        "BSPB_1H2025_2025-10-06",
+        "BSPB_FY2025_2026-05-12",
+        "BSPB_1H2026_2026-10-05"
+      ],
+      "snapshot": "snapshots/bspb_history_table_facts.json",
+      "review_access": "primary indexed extraction / issuer HTML, broker calendar crosscheck"
+    },
+    {
+      "url": "https://www.bspb.ru/investors/corporate-calendar",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "record_date"
+      ],
+      "event_ids": [
+        "BSPB_FY2020_2021-06-07",
+        "BSPB_FY2021_1H2022_2022-08-29",
+        "BSPB_FY2022_2023-05-10",
+        "BSPB_1H2023_2023-10-09",
+        "BSPB_FY2023_2024-05-06",
+        "BSPB_1H2024_2024-09-30",
+        "BSPB_FY2024_2025-05-05",
+        "BSPB_1H2025_2025-10-06",
+        "BSPB_FY2025_2026-05-12",
+        "BSPB_1H2026_2026-10-05"
+      ],
+      "snapshot": "snapshots/bspb_history_table_facts.json",
+      "review_access": "primary indexed extraction / issuer HTML, broker calendar crosscheck"
+    },
+    {
+      "url": "https://cdn.bspb.ru/othcet_emitenta_12m_2023_c8608dab30.pdf",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "record_date"
+      ],
+      "event_ids": [
+        "BSPB_FY2020_2021-06-07",
+        "BSPB_FY2021_1H2022_2022-08-29",
+        "BSPB_FY2022_2023-05-10",
+        "BSPB_1H2023_2023-10-09",
+        "BSPB_FY2023_2024-05-06",
+        "BSPB_1H2024_2024-09-30",
+        "BSPB_FY2024_2025-05-05",
+        "BSPB_1H2025_2025-10-06",
+        "BSPB_FY2025_2026-05-12",
+        "BSPB_1H2026_2026-10-05"
+      ],
+      "snapshot": "snapshots/bspb_history_table_facts.json",
+      "review_access": "primary indexed extraction / issuer HTML, broker calendar crosscheck"
+    },
+    {
+      "url": "https://www.phosagro.ru/investors/dividends/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "cash_record_history"
+      ],
+      "event_ids": [
+        "PHOR_Q42020_2021-06-07",
+        "PHOR_Q12021_2021-07-05",
+        "PHOR_Q22021_2021-09-24",
+        "PHOR_Q32021_2021-12-20",
+        "PHOR_retained_2022_2022-10-03",
+        "PHOR_9M2022_2022-12-19",
+        "PHOR_FY2022_2023-04-04",
+        "PHOR_Q12023_2023-07-11",
+        "PHOR_retained_2023_2023-07-11",
+        "PHOR_9M2023_2023-12-25",
+        "PHOR_FY2023_2024-07-11",
+        "PHOR_Q12024_2024-07-11",
+        "PHOR_6M2024_2024-09-22",
+        "PHOR_9M2024_2024-12-22",
+        "PHOR_FY2024_2025-06-09",
+        "PHOR_6M2025_2025-10-01"
+      ],
+      "snapshot": "snapshots/phor_history_table_facts.json",
+      "review_access": "primary indexed extraction / issuer HTML, broker calendar crosscheck"
+    },
+    {
+      "url": "https://www.finam.ru/quote/moex/phor/dividends/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "PHOR_Q42020_2021-06-07",
+        "PHOR_Q12021_2021-07-05",
+        "PHOR_Q22021_2021-09-24",
+        "PHOR_Q32021_2021-12-20",
+        "PHOR_retained_2022_2022-10-03",
+        "PHOR_9M2022_2022-12-19",
+        "PHOR_FY2022_2023-04-04",
+        "PHOR_Q12023_2023-07-11",
+        "PHOR_retained_2023_2023-07-11",
+        "PHOR_9M2023_2023-12-25",
+        "PHOR_FY2023_2024-07-11",
+        "PHOR_Q12024_2024-07-11",
+        "PHOR_6M2024_2024-09-22",
+        "PHOR_9M2024_2024-12-22",
+        "PHOR_FY2024_2025-06-09",
+        "PHOR_6M2025_2025-10-01"
+      ],
+      "snapshot": "snapshots/phor_history_table_facts.json",
+      "review_access": "primary indexed extraction / issuer HTML, broker calendar crosscheck"
+    },
+    {
+      "url": "https://t.me/s/rushydro_official?before=4417&q=%23%D0%B4%D0%B8%D0%B2%D0%B8%D0%B4%D0%B5%D0%BD%D0%B4%D1%8B",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "record_date"
+      ],
+      "event_ids": [
+        "HYDR_FY2020_2021-07-10"
+      ],
+      "review_access": "official issuer channel or NSD bulletin"
+    },
+    {
+      "url": "https://old.sbibankllc.ru/node/3135",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "record_date"
+      ],
+      "event_ids": [
+        "HYDR_FY2021_2022-07-10"
+      ],
+      "review_access": "official issuer channel or NSD bulletin"
+    },
+    {
+      "url": "https://www.mkb-broker.ru/lists/depository-news/dividendy_v_denezhnoy_forme_o_korporativnom_deystvii_vyplata_dividendov_v_vide_denezhnykh_sredstv_s_tsennymi_bumagami_emitenta_pao_rusgidro_inn_2460066195_aktsiya_1_01_55038_e_isin_ru000a0jpkh7_20260814143933143/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "record_date"
+      ],
+      "event_ids": [
+        "HYDR_FY2022_2023-07-11"
+      ],
+      "review_access": "official issuer channel or NSD bulletin"
+    },
+    {
+      "url": "https://ar2025.rushydro.ru/corporate/for-shareholders-and-investors.html",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "cash_history"
+      ],
+      "event_ids": [
+        "HYDR_FY2020_2021-07-10",
+        "HYDR_FY2021_2022-07-10",
+        "HYDR_FY2022_2023-07-11"
+      ],
+      "snapshot": "snapshots/hydr_history_table_facts.json",
+      "review_access": "issuer annual report or broker calendar"
+    },
+    {
+      "url": "https://www.finam.ru/quote/moex/hydr/dividends/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "last_cum"
+      ],
+      "event_ids": [
+        "HYDR_FY2020_2021-07-10",
+        "HYDR_FY2021_2022-07-10",
+        "HYDR_FY2022_2023-07-11"
+      ],
+      "snapshot": "snapshots/hydr_history_table_facts.json",
+      "review_access": "issuer annual report or broker calendar"
+    },
+    {
+      "url": "https://www.novatek.ru/common/upload/doc/sf_23-3-04-21.pdf",
+      "format": "PDF",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "cash_record"
+      ],
+      "event_ids": [
+        "NVTK_FY2020_2021-05-07"
+      ],
+      "review_access": "primary issuer disclosure"
+    },
+    {
+      "url": "https://www.novatek.ru/ru/investors/dividends/",
+      "format": "HTML",
+      "retrieved_on": "2026-11-10",
+      "roles": [
+        "cash_record"
+      ],
+      "event_ids": [
+        "NVTK_H12026_2026-10-12"
+      ],
+      "review_access": "primary issuer disclosure"
+    }
+  ],
+  "snapshot_notes": {
+    "snapshots/bcs_lkoh.html": "HTTP challenge page, NOT valid dividend evidence; do not parse as a ledger",
+    "snapshots/lukoil.txt": "internal page extraction; use focused table facts for publishing",
+    "snapshots/1aca9c28f79d.html": "original issuer HTML for local audit; focused facts are in lukoil_history_table_facts.json"
+  },
+  "coverage_assertion": "manual reconciliation of each issuer history over the bounded interval, distinct from individual-event verification; other tickers intentionally unknown",
+  "unresolved": [
+    {
+      "ticker": "TATN",
+      "status": "not_promoted",
+      "reason": "Current issuer history unavailable through direct HTTP/web; broker record-date and last-cum conflicts need primary reconciliation.",
+      "source_url": "https://www.tatneft.ru/dividends/history",
+      "conflicts": [
+        "Finam record 2023-07-10 differs from multiple sources 2023-07-11; last cum 2022-01-05 differs from CFPRO 2022-01-06."
+      ]
+    },
+    {
+      "ticker": "CHMF",
+      "status": "not_promoted",
+      "reason": "Primary issuer history unavailable (HTTP 403); corroborating broker tables alone are insufficient for complete-coverage assertion.",
+      "source_url": "https://severstal.com/rus/ir/shareholder-centre/dividends/"
+    },
+    {
+      "ticker": "FEES",
+      "status": "not_promoted",
+      "reason": "Exact FY2020 cash0.016132865449 and record2021-07-16 confirmed by2023 issuer report and NSD bulletin, but complete source coverage for2024-2026 and security continuity requires review. No full current interval asserted.",
+      "source_url": "https://ar23.rosseti.ru/ru/corporate-governance/information-shareholders-investors/dividend-policy",
+      "event_source_url": "https://old.sbibankllc.ru/node/2615"
+    }
+  ]
+}

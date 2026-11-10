@@ -1,0 +1,25 @@
+{
+  "url": "https://draga.ru/wp-content/uploads/2025/06/2.-go-2024.pdf",
+  "retrieved_on": "2026-11-10",
+  "rows": [
+    {
+      "record_date": "2021-07-15",
+      "cash_amount": 12.55,
+      "source_url": "https://region-dk.ru/news/72415/",
+      "period": "FY2020"
+    },
+    {
+      "record_date": "2022-10-11",
+      "cash_amount": 51.03,
+      "source_url": "https://www.e-disclosure.ru/portal/event.aspx?EventId=T2-CRv3-A4F06Snc-Cnengp2A-B-B",
+      "period": "1H2022"
+    }
+  ],
+  "notes": [
+    "2021 event verified from completed AGM NSD bulletin distributed by depository REGION.",
+    "2024 issuer report confirms FY2021 no dividend, FY2022 interim only, FY2023 no dividend.",
+    "2025 and 2026 completed AGM disclosures confirm no FY2024 or FY2025 annual dividend.",
+    "Bounded completeness is manual multi-source reconciliation with current full Finam table, not a directly certified primary-feed interval.",
+    "Ordinary shares nominal RUB5, ISIN RU0007661625, issue 1-02-00028-A; no split in the interval."
+  ]
+}

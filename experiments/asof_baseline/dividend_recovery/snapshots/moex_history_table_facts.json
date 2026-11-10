@@ -1,0 +1,49 @@
+{
+  "url": "https://www.moex.com/ru/about/investoram-i-aktsioneram/informatsiya-ob-aktsiyah/dividendy-i-aktsii",
+  "retrieved_on": "2026-11-10",
+  "retrieval": "primary issuer history and final approved event disclosures via indexed web extraction",
+  "annual_totals": {
+    "2021": 9.45,
+    "2022": 0.0,
+    "2023": 4.84,
+    "2024": 17.35,
+    "2025": 26.11,
+    "2026": 19.57
+  },
+  "rows": [
+    {
+      "record_date": "2021-05-14",
+      "cash_amount": 9.45,
+      "source_url": "https://www.moex.com/n33827?nt=101",
+      "period": "FY2020"
+    },
+    {
+      "record_date": "2023-06-16",
+      "cash_amount": 4.84,
+      "source_url": "https://www.moex.com/n56516",
+      "period": "FY2022"
+    },
+    {
+      "record_date": "2024-06-14",
+      "cash_amount": 17.35,
+      "source_url": "https://www.moex.com/n69868?nt=101",
+      "period": "FY2023"
+    },
+    {
+      "record_date": "2025-07-10",
+      "cash_amount": 26.11,
+      "source_url": "https://www.moex.com/n91498",
+      "period": "FY2024"
+    },
+    {
+      "record_date": "2026-07-09",
+      "cash_amount": 19.57,
+      "source_url": "https://www.moex.com/n101427?nt=106",
+      "period": "FY2025"
+    }
+  ],
+  "notes": [
+    "Issuer history explicitly reports no dividend for FY2021, paid in 2022.",
+    "Issuer ordinary share ISIN RU000A0JR4A1; no split in the reviewed interval."
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "url": "https://www.novatek.ru/ru/investors/dividends/payments/",
+  "retrieved_on": "2026-11-10",
+  "retrieval": "Manually transcribed issuer tables / official disclosures viewed via web search",
+  "rows": [
+    {
+      "period": "FY2020",
+      "record_date": "2021-05-07",
+      "cash_amount": 23.74,
+      "source_url": "https://www.novatek.ru/common/upload/doc/sf_23-3-04-21.pdf"
+    },
+    {
+      "period": "H12021",
+      "record_date": "2021-10-11",
+      "cash_amount": 27.67,
+      "source_url": "https://www.novatek.ru/ru/investors/dividends/payments/"
+    },
+    {
+      "period": "FY2021",
+      "record_date": "2022-05-05",
+      "cash_amount": 43.77,
+      "source_url": "https://www.novatek.ru/ru/investors/dividends/payments/"
+    },
+    {
+      "period": "H12022",
+      "record_date": "2022-10-09",
+      "cash_amount": 45.0,
+      "source_url": "https://www.novatek.ru/ru/investors/dividends/payments/"
+    },
+    {
+      "period": "FY2022",
+      "record_date": "2023-05-03",
+      "cash_amount": 60.58,
+      "source_url": "https://www.novatek.ru/ru/investors/dividends/payments/"
+    },
+    {
+      "period": "H12023",
+      "record_date": "2023-10-10",
+      "cash_amount": 34.5,
+      "source_url": "https://www.novatek.ru/ru/investors/dividends/payments/"
+    },
+    {
+      "period": "FY2023",
+      "record_date": "2024-03-26",
+      "cash_amount": 44.09,
+      "source_url": "https://www.novatek.ru/ru/investors/dividends/payments/"
+    },
+    {
+      "period": "H12024",
+      "record_date": "2024-10-11",
+      "cash_amount": 35.5,
+      "source_url": "https://www.novatek.ru/ru/investors/dividends/payments/"
+    },
+    {
+      "period": "FY2024",
+      "record_date": "2025-04-28",
+      "cash_amount": 46.65,
+      "source_url": "https://www.novatek.ru/ru/investors/dividends/payments/"
+    },
+    {
+      "period": "H12025",
+      "record_date": "2025-10-06",
+      "cash_amount": 35.5,
+      "source_url": "https://www.novatek.ru/ru/investors/dividends/payments/"
+    },
+    {
+      "period": "FY2025",
+      "record_date": "2026-04-13",
+      "cash_amount": 47.23,
+      "source_url": "https://www.novatek.ru/ru/investors/dividends/payments/"
+    },
+    {
+      "period": "H12026",
+      "record_date": "2026-10-12",
+      "cash_amount": 35.5,
+      "source_url": "https://www.novatek.ru/ru/investors/dividends/"
+    }
+  ]
+}

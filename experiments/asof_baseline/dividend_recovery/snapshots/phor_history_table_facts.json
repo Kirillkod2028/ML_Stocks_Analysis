@@ -1,0 +1,109 @@
+{
+  "url": "https://www.phosagro.ru/investors/dividends/",
+  "retrieved_on": "2026-11-10",
+  "rows": [
+    {
+      "period": "Q42020",
+      "record_date": "2021-06-07",
+      "cash_amount": 63.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "Q12021",
+      "record_date": "2021-07-05",
+      "cash_amount": 105.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "Q22021",
+      "record_date": "2021-09-24",
+      "cash_amount": 156.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "Q32021",
+      "record_date": "2021-12-20",
+      "cash_amount": 234.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "retained_2022",
+      "record_date": "2022-10-03",
+      "cash_amount": 780.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "9M2022",
+      "record_date": "2022-12-19",
+      "cash_amount": 318.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "FY2022",
+      "record_date": "2023-04-04",
+      "cash_amount": 465.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "Q12023",
+      "record_date": "2023-07-11",
+      "cash_amount": 216.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "retained_2023",
+      "record_date": "2023-07-11",
+      "cash_amount": 48.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "9M2023",
+      "record_date": "2023-12-25",
+      "cash_amount": 291.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "FY2023",
+      "record_date": "2024-07-11",
+      "cash_amount": 294.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "Q12024",
+      "record_date": "2024-07-11",
+      "cash_amount": 15.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "6M2024",
+      "record_date": "2024-09-22",
+      "cash_amount": 117.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "9M2024",
+      "record_date": "2024-12-22",
+      "cash_amount": 126.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "FY2024",
+      "record_date": "2025-06-09",
+      "cash_amount": 87.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    },
+    {
+      "period": "6M2025",
+      "record_date": "2025-10-01",
+      "cash_amount": 273.0,
+      "source_url": "https://www.phosagro.ru/investors/dividends/"
+    }
+  ],
+  "notes": [
+    "Coverage intentionally ends 2025-12-31: primary dividend history table latest approved entries are in2025; 2026 completeness not certified.",
+    "Official history separately reports 216+48 RUB for2023-07-11 and294+15 RUB for2024-07-11. Both pairs retained as separate events.",
+    "Amounts per ordinary share, not per GDR (three GDR per ordinary share). No split in interval.",
+    "309 RUB with recommended record date2026-12-13 is future board recommendation and excluded."
+  ],
+  "supplementary_sources": []
+}

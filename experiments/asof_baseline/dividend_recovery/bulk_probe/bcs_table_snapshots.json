@@ -1,0 +1,332 @@
+[
+  {
+    "ticker": "AFLT",
+    "source_url": "https://bcs.ru/markets/aflt/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn66view0",
+    "table_available": true,
+    "table": "## Дивиденды Аэрофлот\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n16 июля 2026\n\n17 июля 2026\n\n15,6833679217%\n\n5,29 ₽\n\n17 июля 2025\n\n18 июля 2025\n\n8,51%\n\n5,27 ₽\n\n3 июля 2019\n\n5 июля 2019\n\n2,57%\n\n2,6877 ₽\n\n4 июля 2018\n\n6 июля 2018\n\n9,15%\n\n12,8053 ₽\n\n12 июля 2017\n\n14 июля 2017\n\n7,77%\n\n17,4795 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5]\n\n1 из 5\n\n",
+    "error": null
+  },
+  {
+    "ticker": "AGRO",
+    "source_url": "https://bcs.ru/markets/agro/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn68view0",
+    "table_available": false,
+    "table": "",
+    "error": "Failed to fetch https://bcs.ru/markets/agro/tqbr/dividends: (403) Forbidden"
+  },
+  {
+    "ticker": "ALRS",
+    "source_url": "https://bcs.ru/markets/alrs/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn69view0",
+    "table_available": true,
+    "table": "## Дивиденды АЛРОСА\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n17 октября 2024\n\n19 октября 2024\n\n4,6%\n\n2,49 ₽\n\n30 мая 2024\n\n31 мая 2024\n\n2,56%\n\n2,02 ₽\n\n17 октября 2023\n\n18 октября 2023\n\n4,9%\n\n3,77 ₽\n\n15 октября 2021\n\n19 октября 2021\n\n6,37%\n\n8,79 ₽\n\n30 июня 2021\n\n4 июля 2021\n\n7,13%\n\n9,54 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4]\n\n1 из 4\n\n",
+    "error": null
+  },
+  {
+    "ticker": "BSPB",
+    "source_url": "https://bcs.ru/markets/bspb/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn67view0",
+    "table_available": true,
+    "table": "## Дивиденды Банк Санкт-Петербург\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n2 октября 2026\n\n5 октября 2026\n\n7,0426157237%\n\n19,17 ₽\n\n11 мая 2026\n\n12 мая 2026\n\n7,6298795741%\n\n26,23 ₽\n\n3 октября 2025\n\n6 октября 2025\n\n4,91%\n\n16,61 ₽\n\n2 мая 2025\n\n5 мая 2025\n\n7,32%\n\n29,72 ₽\n\n27 сентября 2024\n\n30 сентября 2024\n\n6,9%\n\n27,26 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5]\n\n1 из 5\n\n",
+    "error": null
+  },
+  {
+    "ticker": "CHMF",
+    "source_url": "https://bcs.ru/markets/chmf/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn72view0",
+    "table_available": true,
+    "table": "## Дивиденды Северсталь\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n16 декабря 2024\n\n17 декабря 2024\n\n4,65%\n\n49,06 ₽\n\n9 сентября 2024\n\n10 сентября 2024\n\n2,37%\n\n31,06 ₽\n\n17 июня 2024\n\n18 июня 2024\n\n10,52%\n\n191,51 ₽\n\n17 июня 2024\n\n18 июня 2024\n\n2,1%\n\n38,3 ₽\n\n10 декабря 2021\n\n14 декабря 2021\n\n5,39%\n\n85,93 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5]\n\n...\n\n[Button: 13]\n\n1 из 13\n\n",
+    "error": null
+  },
+  {
+    "ticker": "FEES",
+    "source_url": "https://bcs.ru/markets/fees/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn73view0",
+    "table_available": true,
+    "table": "## Дивиденды ФСК-Россети\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n14 июля 2021\n\n16 июля 2021\n\n7,08%\n\n0,016132865 ₽\n\n27 мая 2020\n\n29 мая 2020\n\n4,94%\n\n0,009494338 ₽\n\n9 января 2020\n\n13 января 2020\n\n4,15%\n\n0,008809608 ₽\n\n12 июля 2019\n\n16 июля 2019\n\n7,93%\n\n0,016043 ₽\n\n16 июля 2018\n\n18 июля 2018\n\n7,84%\n\n0,014815396 ₽\n\n[Button: 1][Button: 2][Button: 3]\n\n1 из 3\n\n",
+    "error": null
+  },
+  {
+    "ticker": "FIXP",
+    "source_url": "https://bcs.ru/markets/fixp/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn70view0",
+    "table_available": false,
+    "table": "",
+    "error": "Failed to fetch https://bcs.ru/markets/fixp/tqbr/dividends: (403) Forbidden"
+  },
+  {
+    "ticker": "FLOT",
+    "source_url": "https://bcs.ru/markets/flot/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn71view0",
+    "table_available": true,
+    "table": "## Дивиденды Совкомфлот\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n15 июля 2026\n\n16 июля 2026\n\n6,975078774%\n\n4,87 ₽\n\n18 июля 2024\n\n20 июля 2024\n\n9,94%\n\n11,27 ₽\n\n4 января 2024\n\n7 января 2024\n\n4,26%\n\n6,32 ₽\n\n3 июля 2023\n\n5 июля 2023\n\n4,88%\n\n4,29 ₽\n\n1 июля 2021\n\n5 июля 2021\n\n7,17%\n\n6,67 ₽\n\n[Button: 1][Button: 2]\n\n1 из 2\n\n",
+    "error": null
+  },
+  {
+    "ticker": "GAZP",
+    "source_url": "https://bcs.ru/markets/gazp/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn61view0",
+    "table_available": true,
+    "table": "## Дивиденды Газпром\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n7 октября 2022\n\n11 октября 2022\n\n26,15%\n\n51,03 ₽\n\n13 июля 2021\n\n15 июля 2021\n\n4,27%\n\n12,55 ₽\n\n14 июля 2020\n\n16 июля 2020\n\n7,87%\n\n15,24 ₽\n\n16 июля 2019\n\n18 июля 2019\n\n6,98%\n\n16,61 ₽\n\n17 июля 2018\n\n19 июля 2018\n\n5,53%\n\n8,04 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5]\n\n1 из 5\n\n",
+    "error": null
+  },
+  {
+    "ticker": "GMKN",
+    "source_url": "https://bcs.ru/markets/gmkn/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn76view0",
+    "table_available": true,
+    "table": "## Дивиденды ГМК Норникель\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n9 октября 2026\n\n12 октября 2026\n\n1,5817373461%\n\n1,85 ₽\n\n25 декабря 2023\n\n26 декабря 2023\n\n5,34%\n\n915,33 ₽\n\n9 июня 2022\n\n14 июня 2022\n\n5,74%\n\n1166,22 ₽\n\n12 января 2022\n\n14 января 2022\n\n6,34%\n\n1523,17 ₽\n\n28 мая 2021\n\n1 июня 2021\n\n3,76%\n\n1021,22 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5]\n\n...\n\n[Button: 8]\n\n1 из 8\n\n",
+    "error": null
+  },
+  {
+    "ticker": "HYDR",
+    "source_url": "https://bcs.ru/markets/hydr/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn77view0",
+    "table_available": true,
+    "table": "## Дивиденды РусГидро\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n7 июля 2023\n\n11 июля 2023\n\n5,98%\n\n0,050254795 ₽\n\n6 июля 2022\n\n10 июля 2022\n\n6,59%\n\n0,05304937 ₽\n\n7 июля 2021\n\n10 июля 2021\n\n6,12%\n\n0,0530482 ₽\n\n7 октября 2020\n\n10 октября 2020\n\n4,71%\n\n0,03568039 ₽\n\n5 июля 2019\n\n9 июля 2019\n\n5,91%\n\n0,0367388 ₽\n\n[Button: 1][Button: 2][Button: 3]\n\n1 из 3\n\n",
+    "error": null
+  },
+  {
+    "ticker": "IRAO",
+    "source_url": "https://bcs.ru/markets/irao/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn75view0",
+    "table_available": false,
+    "table": "",
+    "error": "Failed to fetch https://bcs.ru/markets/irao/tqbr/dividends: (404) Not Found"
+  },
+  {
+    "ticker": "MAGN",
+    "source_url": "https://bcs.ru/markets/magn/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn74view0",
+    "table_available": true,
+    "table": "## Дивиденды ММК\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n16 октября 2024\n\n17 октября 2024\n\n5,63%\n\n2,494 ₽\n\n7 июня 2024\n\n10 июня 2024\n\n4,86%\n\n2,752 ₽\n\n11 января 2022\n\n13 января 2022\n\n3,8%\n\n2,66 ₽\n\n23 сентября 2021\n\n27 сентября 2021\n\n4,59%\n\n3,53 ₽\n\n15 июня 2021\n\n17 июня 2021\n\n1,41%\n\n0,945 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5]\n\n...\n\n[Button: 9]\n\n1 из 9\n\n",
+    "error": null
+  },
+  {
+    "ticker": "MGNT",
+    "source_url": "https://bcs.ru/markets/mgnt/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn79view0",
+    "table_available": true,
+    "table": "## Дивиденды Магнит\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n12 июля 2024\n\n15 июля 2024\n\n6,63%\n\n412,13 ₽\n\n10 января 2024\n\n11 января 2024\n\n5,58%\n\n412,13 ₽\n\n28 декабря 2021\n\n31 декабря 2021\n\n5,2%\n\n294,37 ₽\n\n23 июня 2021\n\n25 июня 2021\n\n4,4%\n\n245,31 ₽\n\n5 января 2021\n\n8 января 2021\n\n4,26%\n\n245,31 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5][Button: 6]\n\n1 из 6\n\n",
+    "error": null
+  },
+  {
+    "ticker": "MOEX",
+    "source_url": "https://bcs.ru/markets/moex/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn78view0",
+    "table_available": true,
+    "table": "## Дивиденды Московская Биржа\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n8 июля 2026\n\n9 июля 2026\n\n11,9474969475%\n\n19,57 ₽\n\n9 июля 2025\n\n10 июля 2025\n\n13,59%\n\n26,11 ₽\n\n13 июня 2024\n\n14 июня 2024\n\n6,96%\n\n17,35 ₽\n\n14 июня 2023\n\n16 июня 2023\n\n3,77%\n\n4,84 ₽\n\n12 мая 2021\n\n14 мая 2021\n\n5,04%\n\n9,45 ₽\n\n[Button: 1][Button: 2][Button: 3]\n\n1 из 3\n\n",
+    "error": null
+  },
+  {
+    "ticker": "MTSS",
+    "source_url": "https://bcs.ru/markets/mtss/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn80view0",
+    "table_available": true,
+    "table": "## Дивиденды МТС\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n8 июля 2026\n\n9 июля 2026\n\n16,6825548141%\n\n35 ₽\n\n4 июля 2025\n\n7 июля 2025\n\n15,52%\n\n35 ₽\n\n15 июля 2024\n\n16 июля 2024\n\n13,43%\n\n35 ₽\n\n27 июня 2023\n\n29 июня 2023\n\n9,88%\n\n34,29 ₽\n\n8 июля 2022\n\n12 июля 2022\n\n12,31%\n\n33,85 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5]\n\n...\n\n[Button: 8]\n\n1 из 8\n\n",
+    "error": null
+  },
+  {
+    "ticker": "NLMK",
+    "source_url": "https://bcs.ru/markets/nlmk/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn81view0",
+    "table_available": true,
+    "table": "## Дивиденды НЛМК\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n24 мая 2024\n\n27 мая 2024\n\n9,96%\n\n25,43 ₽\n\n3 декабря 2021\n\n7 декабря 2021\n\n6,08%\n\n13,33 ₽\n\n3 сентября 2021\n\n7 сентября 2021\n\n5,53%\n\n13,62 ₽\n\n21 июня 2021\n\n23 июня 2021\n\n2,98%\n\n7,71 ₽\n\n7 мая 2021\n\n11 мая 2021\n\n2,63%\n\n7,25 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5]\n\n...\n\n[Button: 9]\n\n1 из 9\n\n",
+    "error": null
+  },
+  {
+    "ticker": "NVTK",
+    "source_url": "https://bcs.ru/markets/nvtk/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn63view0",
+    "table_available": false,
+    "table": "",
+    "error": "Failed to fetch https://bcs.ru/markets/nvtk/tqbr/dividends: (404) Not Found"
+  },
+  {
+    "ticker": "OZON",
+    "source_url": "https://bcs.ru/markets/ozon/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn84view0",
+    "table_available": true,
+    "table": "## Дивиденды Озон\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n25 мая 2026\n\n26 мая 2026\n\n1,6920473773%\n\n70 ₽\n\n19 декабря 2025\n\n22 декабря 2025\n\n3,42%\n\n143,55 ₽\n\n",
+    "error": null
+  },
+  {
+    "ticker": "PHOR",
+    "source_url": "https://bcs.ru/markets/phor/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn82view0",
+    "table_available": true,
+    "table": "## Дивиденды ФосАгро\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n10 декабря 2026\n\n13 декабря 2026\n\n5,8139534884%\n\n305 ₽\n\n30 сентября 2025\n\n1 октября 2025\n\n3,8%\n\n273 ₽\n\n6 июня 2025\n\n9 июня 2025\n\n1,35%\n\n87 ₽\n\n19 декабря 2024\n\n22 декабря 2024\n\n2,15%\n\n126 ₽\n\n19 сентября 2024\n\n22 сентября 2024\n\n2,26%\n\n117 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5]\n\n...\n\n[Button: 10]\n\n1 из 10\n\n",
+    "error": null
+  },
+  {
+    "ticker": "PIKK",
+    "source_url": "https://bcs.ru/markets/pikk/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn83view0",
+    "table_available": true,
+    "table": "## Дивиденды ПИК\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n13 мая 2021\n\n17 мая 2021\n\n2,23%\n\n22,92 ₽\n\n13 мая 2021\n\n17 мая 2021\n\n2,19%\n\n22,51 ₽\n\n8 октября 2020\n\n12 октября 2020\n\n3,99%\n\n22,71 ₽\n\n30 мая 2019\n\n3 июня 2019\n\n5,82%\n\n22,71 ₽\n\n31 августа 2018\n\n4 сентября 2018\n\n6,24%\n\n22,71 ₽\n\n[Button: 1][Button: 2]\n\n1 из 2\n\n",
+    "error": null
+  },
+  {
+    "ticker": "PLZL",
+    "source_url": "https://bcs.ru/markets/plzl/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn85view0",
+    "table_available": true,
+    "table": "## Дивиденды Полюс\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n10 июля 2026\n\n13 июля 2026\n\n2,4378986237%\n\n29,05 ₽\n\n15 мая 2026\n\n18 мая 2026\n\n2,679245283%\n\n56,8 ₽\n\n19 декабря 2025\n\n22 декабря 2025\n\n1,56%\n\n36 ₽\n\n10 октября 2025\n\n13 октября 2025\n\n3,09%\n\n70,85 ₽\n\n24 апреля 2025\n\n25 апреля 2025\n\n3,83%\n\n73 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5]\n\n1 из 5\n\n",
+    "error": null
+  },
+  {
+    "ticker": "POSI",
+    "source_url": "https://bcs.ru/markets/posi/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn86view0",
+    "table_available": true,
+    "table": "## Дивиденды Группа Позитив\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n14 мая 2026\n\n17 мая 2026\n\n2,7395121951%\n\n28,08 ₽\n\n23 мая 2024\n\n24 мая 2024\n\n1,66%\n\n51,89 ₽\n\n18 апреля 2024\n\n20 апреля 2024\n\n1,59%\n\n47,3 ₽\n\n30 ноября 2023\n\n3 декабря 2023\n\n0,76%\n\n15,8 ₽\n\n18 мая 2023\n\n22 мая 2023\n\n1,11%\n\n18,94 ₽\n\n[Button: 1][Button: 2]\n\n1 из 2\n\n",
+    "error": null
+  },
+  {
+    "ticker": "ROSN",
+    "source_url": "https://bcs.ru/markets/rosn/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn62view0",
+    "table_available": true,
+    "table": "## Дивиденды Роснефть\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n11 января 2027\n\n12 января 2027\n\n—\n\n9,44 ₽\n\n8 июля 2026\n\n9 июля 2026\n\n0,6914407554%\n\n2,27 ₽\n\n9 января 2026\n\n12 января 2026\n\n2,86%\n\n11,56 ₽\n\n17 июля 2025\n\n20 июля 2025\n\n3,49%\n\n14,68 ₽\n\n9 января 2025\n\n10 января 2025\n\n6,34%\n\n36,47 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5][Button: 6]\n\n1 из 6\n\n",
+    "error": null
+  },
+  {
+    "ticker": "RTKM",
+    "source_url": "https://bcs.ru/markets/rtkm/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn88view0",
+    "table_available": true,
+    "table": "## Дивиденды Ростелеком\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n17 июля 2026\n\n20 июля 2026\n\n7,3501491728%\n\n2,71 ₽\n\n12 августа 2025\n\n13 августа 2025\n\n3,74%\n\n2,71 ₽\n\n26 сентября 2024\n\n27 сентября 2024\n\n7,53%\n\n6,06 ₽\n\n30 ноября 2023\n\n1 декабря 2023\n\n6,68%\n\n5,4465 ₽\n\n18 июля 2022\n\n20 июля 2022\n\n7,04%\n\n4,56 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5][Button: 6]\n\n1 из 6\n\n",
+    "error": null
+  },
+  {
+    "ticker": "SIBN",
+    "source_url": "https://bcs.ru/markets/sibn/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn64view0",
+    "table_available": true,
+    "table": "## Дивиденды Газпром нефть\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n12 октября 2026\n\n13 октября 2026\n\n6,7061050639%\n\n42,51 ₽\n\n3 июля 2026\n\n6 июля 2026\n\n6,2052980132%\n\n28,11 ₽\n\n10 октября 2025\n\n13 октября 2025\n\n3,45%\n\n17,3 ₽\n\n7 июля 2025\n\n8 июля 2025\n\n5,18%\n\n27,21 ₽\n\n11 октября 2024\n\n14 октября 2024\n\n7,45%\n\n51,96 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5][Button: 6][Button: 7]\n\n1 из 7\n\n",
+    "error": null
+  },
+  {
+    "ticker": "SMLT",
+    "source_url": "https://bcs.ru/markets/smlt/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn87view0",
+    "table_available": true,
+    "table": "## Дивиденды Самолет\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n10 октября 2022\n\n12 октября 2022\n\n2,06%\n\n41 ₽\n\n7 июля 2022\n\n11 июля 2022\n\n1,55%\n\n41 ₽\n\n13 октября 2021\n\n15 октября 2021\n\n0,84%\n\n41 ₽\n\n7 июля 2021\n\n10 июля 2021\n\n2,38%\n\n41 ₽\n\n",
+    "error": null
+  },
+  {
+    "ticker": "SNGS",
+    "source_url": "https://bcs.ru/markets/sngs/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn89view0",
+    "table_available": true,
+    "table": "## Дивиденды Сургутнефтегаз\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n15 июля 2026\n\n16 июля 2026\n\n5,5755985569%\n\n0,85 ₽\n\n16 июля 2025\n\n17 июля 2025\n\n3,87%\n\n0,9 ₽\n\n17 июля 2024\n\n18 июля 2024\n\n3,05%\n\n0,85 ₽\n\n18 июля 2023\n\n20 июля 2023\n\n2,68%\n\n0,8 ₽\n\n18 июля 2022\n\n20 июля 2022\n\n3,27%\n\n0,8 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5][Button: 6]\n\n1 из 6\n\n",
+    "error": null
+  },
+  {
+    "ticker": "T",
+    "source_url": "https://bcs.ru/markets/t/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn90view0",
+    "table_available": true,
+    "table": "## Дивиденды Т-Технологии\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n11 декабря 2026\n\n14 декабря 2026\n\n1,7529764079%\n\n4,8 ₽\n\n9 октября 2026\n\n12 октября 2026\n\n1,7299764429%\n\n4,7 ₽\n\n7 августа 2026\n\n10 августа 2026\n\n1,6365447559%\n\n4,6 ₽\n\n22 мая 2026\n\n25 мая 2026\n\n1,4526438117%\n\n4,5 ₽\n\n6 января 2026\n\n8 января 2026\n\n1,09%\n\n36 ₽\n\n[Button: 1][Button: 2]\n\n1 из 2\n\n",
+    "error": null
+  },
+  {
+    "ticker": "TATN",
+    "source_url": "https://bcs.ru/markets/tatn/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn91view0",
+    "table_available": true,
+    "table": "## Дивиденды Татнефть\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n12 октября 2026\n\n13 октября 2026\n\n4,8459837878%\n\n32,88 ₽\n\n14 июля 2026\n\n15 июля 2026\n\n2,3948019802%\n\n11,61 ₽\n\n8 января 2026\n\n11 января 2026\n\n1,43%\n\n8,13 ₽\n\n13 октября 2025\n\n14 октября 2025\n\n2,41%\n\n14,35 ₽\n\n30 мая 2025\n\n2 июня 2025\n\n6,12%\n\n43,11 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5]\n\n...\n\n[Button: 9]\n\n1 из 9\n\n",
+    "error": null
+  },
+  {
+    "ticker": "TRNFP",
+    "source_url": "https://bcs.ru/markets/trnfp/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn92view0",
+    "table_available": true,
+    "table": "## Дивиденды Транснефть ап\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n17 июля 2026\n\n20 июля 2026\n\n17,2237219504%\n\n204,17 ₽\n\n16 июля 2025\n\n17 июля 2025\n\n13,23%\n\n198,25 ₽\n\n17 июля 2024\n\n18 июля 2024\n\n12,33%\n\n177,2 ₽\n\n18 июля 2023\n\n20 июля 2023\n\n11,88%\n\n16665,2 ₽\n\n18 июля 2022\n\n20 июля 2022\n\n8,5%\n\n10497,36 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4][Button: 5][Button: 6]\n\n1 из 6\n\n",
+    "error": null
+  },
+  {
+    "ticker": "VTBR",
+    "source_url": "https://bcs.ru/markets/vtbr/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn93view0",
+    "table_available": true,
+    "table": "## Дивиденды ВТБ\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n17 июля 2026\n\n20 июля 2026\n\n16,3454254692%\n\n9,71 ₽\n\n10 июля 2025\n\n11 июля 2025\n\n27,37%\n\n25,58 ₽\n\n13 июля 2021\n\n15 июля 2021\n\n2,9%\n\n0,0014 ₽\n\n1 октября 2020\n\n5 октября 2020\n\n2,26%\n\n0,000773453 ₽\n\n20 июня 2019\n\n24 июня 2019\n\n2,72%\n\n0,001098678 ₽\n\n[Button: 1][Button: 2][Button: 3][Button: 4]\n\n1 из 4\n\n",
+    "error": null
+  },
+  {
+    "ticker": "YDEX",
+    "source_url": "https://bcs.ru/markets/ydex/tqbr/dividends",
+    "retrieved_on": "2026-11-10",
+    "retrieval": "public web page extraction",
+    "reference": "turn94view0",
+    "table_available": true,
+    "table": "## Дивиденды Яндекс\n\nСрок включения в реестр под дивиденды\n\nДата формирования реестра\n\nДивидендная доходность\n\nРазмер дивиденда\n\n18 сентября 2026\n\n21 сентября 2026\n\n2,8825995807%\n\n110 ₽\n\n24 апреля 2026\n\n27 апреля 2026\n\n2,567394095%\n\n110 ₽\n\n26 сентября 2025\n\n29 сентября 2025\n\n1,95%\n\n80 ₽\n\n25 апреля 2025\n\n28 апреля 2025\n\n1,83%\n\n80 ₽\n\n19 сентября 2024\n\n20 сентября 2024\n\n1,93%\n\n80 ₽\n\n",
+    "error": null
+  }
+]

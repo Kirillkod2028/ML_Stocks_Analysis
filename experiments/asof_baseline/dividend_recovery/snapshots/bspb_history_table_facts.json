@@ -1,0 +1,74 @@
+{
+  "url": "https://www.bspb.ru/investors/share/dividends",
+  "retrieved_on": "2026-11-10",
+  "rows": [
+    {
+      "period": "FY2020",
+      "record_date": "2021-06-07",
+      "cash_amount": 4.56,
+      "source_url": "https://www.bspb.ru/investors/share/dividends"
+    },
+    {
+      "period": "FY2021_1H2022",
+      "record_date": "2022-08-29",
+      "cash_amount": 11.81,
+      "source_url": "https://www.bspb.ru/investors/share/dividends"
+    },
+    {
+      "period": "FY2022",
+      "record_date": "2023-05-10",
+      "cash_amount": 21.16,
+      "source_url": "https://www.bspb.ru/investors/share/dividends"
+    },
+    {
+      "period": "1H2023",
+      "record_date": "2023-10-09",
+      "cash_amount": 19.08,
+      "source_url": "https://www.bspb.ru/investors/share/dividends"
+    },
+    {
+      "period": "FY2023",
+      "record_date": "2024-05-06",
+      "cash_amount": 23.37,
+      "source_url": "https://www.bspb.ru/investors/share/dividends"
+    },
+    {
+      "period": "1H2024",
+      "record_date": "2024-09-30",
+      "cash_amount": 27.26,
+      "source_url": "https://www.bspb.ru/investors/share/dividends"
+    },
+    {
+      "period": "FY2024",
+      "record_date": "2025-05-05",
+      "cash_amount": 29.72,
+      "source_url": "https://www.bspb.ru/investors/share/dividends"
+    },
+    {
+      "period": "1H2025",
+      "record_date": "2025-10-06",
+      "cash_amount": 16.61,
+      "source_url": "https://www.bspb.ru/investors/share/dividends"
+    },
+    {
+      "period": "FY2025",
+      "record_date": "2026-05-12",
+      "cash_amount": 26.23,
+      "source_url": "https://www.bspb.ru/investors/share/dividends"
+    },
+    {
+      "period": "1H2026",
+      "record_date": "2026-10-05",
+      "cash_amount": 19.17,
+      "source_url": "https://www.bspb.ru/investors/share/dividends"
+    }
+  ],
+  "notes": [
+    "Ordinary-share amounts, not BSPBP preferred amounts. No split in reviewed interval.",
+    "Amounts from complete issuer history; record dates from issuer corporate calendar and 2023 issuer report; later actual history corroborates calendar proposals."
+  ],
+  "supplementary_sources": [
+    "https://www.bspb.ru/investors/corporate-calendar",
+    "https://cdn.bspb.ru/othcet_emitenta_12m_2023_c8608dab30.pdf"
+  ]
+}

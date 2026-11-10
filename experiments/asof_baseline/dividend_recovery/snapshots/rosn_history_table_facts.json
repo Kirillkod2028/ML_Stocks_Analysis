@@ -1,0 +1,73 @@
+{
+  "url": "https://www.rosneft.ru/Investors/dividends/",
+  "retrieved_on": "2026-11-10",
+  "retrieval": "Manually transcribed issuer tables / official disclosures viewed via web search",
+  "rows": [
+    {
+      "period": "FY2020",
+      "record_date": "2021-06-15",
+      "cash_amount": 6.94,
+      "source_url": "https://www.rosneft.ru/Investors/dividends/"
+    },
+    {
+      "period": "H12021",
+      "record_date": "2021-10-11",
+      "cash_amount": 18.03,
+      "source_url": "https://www.rosneft.ru/Investors/dividends/"
+    },
+    {
+      "period": "FY2021",
+      "record_date": "2022-07-11",
+      "cash_amount": 23.63,
+      "source_url": "https://www.rosneft.ru/Investors/dividends/"
+    },
+    {
+      "period": "9M2022",
+      "record_date": "2023-01-12",
+      "cash_amount": 20.39,
+      "source_url": "https://www.rosneft.ru/Investors/dividends/"
+    },
+    {
+      "period": "FY2022",
+      "record_date": "2023-07-11",
+      "cash_amount": 17.97,
+      "source_url": "https://www.rosneft.ru/Investors/dividends/"
+    },
+    {
+      "period": "9M2023",
+      "record_date": "2024-01-11",
+      "cash_amount": 30.77,
+      "source_url": "https://www.rosneft.ru/Investors/dividends/"
+    },
+    {
+      "period": "FY2023",
+      "record_date": "2024-07-09",
+      "cash_amount": 29.01,
+      "source_url": "https://www.rosneft.ru/Investors/dividends/"
+    },
+    {
+      "period": "9M2024",
+      "record_date": "2025-01-10",
+      "cash_amount": 36.47,
+      "source_url": "https://www.rosneft.ru/Investors/dividends/"
+    },
+    {
+      "period": "FY2024",
+      "record_date": "2025-07-20",
+      "cash_amount": 14.68,
+      "source_url": "https://www.rosneft.ru/Investors/dividends/"
+    },
+    {
+      "period": "9M2025",
+      "record_date": "2026-01-12",
+      "cash_amount": 11.56,
+      "source_url": "https://www.rosneft.ru/Investors/dividends/"
+    },
+    {
+      "period": "FY2025",
+      "record_date": "2026-07-09",
+      "cash_amount": 2.27,
+      "source_url": "https://www.rosneft.ru/Investors/dividends/"
+    }
+  ]
+}
