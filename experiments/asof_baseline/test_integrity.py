@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 from ml_stocks_analysis import data_pipeline as source
 from build_panel import make_targets, test_feature_causality_and_units
+from run_baseline import score_model
 
 
 class IntegrityChecks(unittest.TestCase):
@@ -92,6 +93,22 @@ class IntegrityChecks(unittest.TestCase):
         target = make_targets(stock, stock)
         self.assertFalse(target.iloc[26:34].complete_labels.any())
         self.assertEqual(target.iloc[20].label_end, days[25])
+
+    def test_unknown_split_across_missing_sessions_stops(self):
+        dates = pd.bdate_range("2026-04-10", periods=4)
+        raw = pd.DataFrame({"TRADEDATE": dates, "CLOSE": [100., np.nan, np.nan, 10.]})
+        with self.assertRaisesRegex(RuntimeError, "unverified >70%"):
+            source._detect_and_fix_splits(raw, pd.DataFrame(), "UNKNOWN")
+
+    def test_predictions_retain_unknown_future_outcomes(self):
+        train = pd.DataFrame({"x": [0., 1., 2.], "y_excess5": [0., .1, .2]})
+        test = pd.DataFrame({"TRADEDATE": [pd.Timestamp("2024-01-01")] * 11,
+                             "ticker": [str(i) for i in range(11)],
+                             "x": np.arange(11), "y_return5": [0.] * 10 + [np.nan],
+                             "y_excess5": [0.] * 10 + [np.nan]})
+        predictions, _ = score_model(train, test, ["x"], 10.)
+        self.assertEqual(len(predictions), 11)
+        self.assertTrue(predictions.prediction.notna().all())
 
 
 if __name__ == "__main__":

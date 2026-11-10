@@ -28,8 +28,12 @@ ALPHAS = (10., 1000., 10000.)
 
 
 def daily_scores(rows: pd.DataFrame) -> pd.DataFrame:
-    """Equal weight per decision date, Spearman across tradable stocks."""
-    valid = rows.sort_values(["TRADEDATE", "prediction", "ticker"],
+    """Conditional labeled-row metric, not an executable stock selection.
+
+    Portfolio selection must use all current-eligible predictions, including
+    securities without complete future labels (suspensions/missing quotes).
+    """
+    valid = rows.dropna(subset=["y_return5", "prediction"]).sort_values(["TRADEDATE", "prediction", "ticker"],
                              ascending=[True, False, True])
     rank_p = valid.groupby("TRADEDATE").prediction.rank()
     rank_y = valid.groupby("TRADEDATE").y_return5.rank()
@@ -88,8 +92,8 @@ def run():
     panel["label_end"] = pd.to_datetime(panel.label_end)
     feature_sets = json.loads((HERE / "feature_sets.json").read_text())
     base, ema = feature_sets["base"], feature_sets["ema"]
-    dev = panel.loc[(panel.TRADEDATE < HOLD) & (panel.label_end < HOLD)
-                    & panel.complete_labels].copy()
+    # label_end is the common-calendar horizon, independent of stock availability.
+    dev = panel.loc[(panel.TRADEDATE < HOLD) & (panel.label_end < HOLD)].copy()
     shared = dev.loc[dev[[c for c in ema if c not in base]].notna().all(axis=1)]
     result, predictions = [], []
     for universe, data, candidates in [
@@ -99,7 +103,7 @@ def run():
         for name, columns in candidates.items():
             parts = []
             for index, (lo, hi) in enumerate(zip(FOLDS[:-1], FOLDS[1:])):
-                tr = data.loc[data.label_end < lo]
+                tr = data.loc[(data.label_end < lo) & data.complete_labels]
                 te = data.loc[(data.TRADEDATE >= lo) & (data.TRADEDATE < hi)]
                 if tr.TRADEDATE.nunique() < 180 or te.TRADEDATE.nunique() < 20:
                     raise ValueError(f"Insufficient history for planned fold {index}")
@@ -115,6 +119,7 @@ def run():
                 result.append({"universe": universe, "features": name,
                                "fold": index, "alpha": alpha,
                                "test_dates": len(daily), "test_rows": len(q),
+                               "unlabeled_predictions": int(q.y_return5.isna().sum()),
                                "ic": daily.ic.mean(),
                                "top_minus_universe": daily.top_minus_universe.mean(),
                                "universe_minus_bottom": daily.universe_minus_bottom.mean(),
@@ -131,6 +136,7 @@ def run():
         d = daily_scores(part)
         aggregate.append({"universe": universe, "features": name,
                           "rows": len(part), "dates": len(d),
+                          "unlabeled_predictions": int(part.y_return5.isna().sum()),
                           "ic": d.ic.mean(),
                           "top_minus_universe": d.top_minus_universe.mean(),
                           "universe_minus_bottom": d.universe_minus_bottom.mean()})

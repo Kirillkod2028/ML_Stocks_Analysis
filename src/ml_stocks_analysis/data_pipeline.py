@@ -79,6 +79,8 @@ CONFIRMED_SPLITS: dict[str, tuple[tuple[str, float], ...]] = {
     "GMKN": (("2024-04-08", .01),),
     "PLZL": (("2025-03-27", .1),),
     "VTBR": (("2024-07-15", 5000.),),
+    # First post-split trading day: https://www.moex.com/n99355
+    "T": (("2026-04-17", .1),),
 }
 
 # Физически достижимые границы max-5d таргета:
@@ -387,7 +389,8 @@ def _detect_and_fix_splits(
                 raise RuntimeError(f"{ticker}: dividends lack verified ex_date")
             divs.loc[divs.ex_date < effective, "value"] *= factor
         logger.info("Verified %s split on %s, share factor %g", ticker, date, factor)
-    jumps = raw.CLOSE.pct_change(fill_method=None).abs() > .70
+    # Corporate actions often suspend trading: compare observed prices across gaps.
+    jumps = raw.CLOSE.dropna().pct_change(fill_method=None).abs().reindex(raw.index).fillna(0) > .70
     if jumps.any():
         dates = raw.loc[jumps, "TRADEDATE"].dt.strftime("%Y-%m-%d").tolist()
         raise RuntimeError(f"{ticker}: unverified >70% close change on {dates}")
@@ -531,15 +534,15 @@ def calculate_features(
     f: dict[str, pd.Series] = {}
 
     # A. Momentum
-    f["R1"]            = c.pct_change(1).shift(1)
-    f["R5"]            = c.pct_change(5).shift(1)
-    f["R21"]           = c.pct_change(21).shift(1)
-    f["R63"]           = c.pct_change(63).shift(1)
-    f["R126"]          = c.pct_change(126).shift(1)
+    f["R1"]            = c.pct_change(1, fill_method=None).shift(1)
+    f["R5"]            = c.pct_change(5, fill_method=None).shift(1)
+    f["R21"]           = c.pct_change(21, fill_method=None).shift(1)
+    f["R63"]           = c.pct_change(63, fill_method=None).shift(1)
+    f["R126"]          = c.pct_change(126, fill_method=None).shift(1)
     f["R12_1"]         = c.shift(21) / c.shift(252).replace(0, np.nan) - 1
     f["TSMOM"]         = np.sign(f["R63"])
     f["dist_52w_high"] = (c - h.rolling(252).max()) / h.rolling(252).max().replace(0, np.nan)
-    r5 = c.pct_change(5)
+    r5 = c.pct_change(5, fill_method=None)
     f["price_accel"]   = r5 - r5.shift(5)
 
     # B. Mean Reversion

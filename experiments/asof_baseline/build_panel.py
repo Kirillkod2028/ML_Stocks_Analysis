@@ -17,15 +17,10 @@ import pandas as pd
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from ml_stocks_analysis.data_pipeline import calculate_features, TICKERS_SECTORS, CATEGORICAL_COLS
+from ml_stocks_analysis.data_pipeline import calculate_features, TICKERS_SECTORS, CATEGORICAL_COLS, CONFIRMED_SPLITS
 from ema_features import ema_features
 
-SPLITS = {
-    "TRNFP": [("2024-02-21", .01)],
-    "GMKN": [("2024-04-08", .01)],
-    "PLZL": [("2025-03-27", .1)],
-    "VTBR": [("2024-07-15", 5000.)],
-}
+SPLITS = CONFIRMED_SPLITS
 OHLC = ["OPEN", "HIGH", "LOW", "CLOSE"]
 DROP_FEATURES = {"Beta_USDRUB_60d", "dte_ex_days", "has_dividends", "post_ex_flag_10d"}
 
@@ -75,7 +70,7 @@ def adjust_confirmed_splits(df, ticker):
             elif .5 < ratio < 2:
                 rec["status"] = "already_adjusted_or_no_visible_jump"
             else:
-                rec["status"] = "unexpected_ratio_NOT_adjusted"
+                raise ValueError(f"{ticker} {date}: unverified split price ratio {ratio}")
         records.append(rec)
     return df, records
 
@@ -170,18 +165,25 @@ def main():
     rvi = pd.read_csv(raw / "RVI.csv", parse_dates=["TRADEDATE"])
     rvi = rvi.drop_duplicates("TRADEDATE", keep="last").set_index("TRADEDATE")["CLOSE"]
     rvi = pd.to_numeric(rvi, errors="coerce").reindex(calendar)
-    frames, ticker_quality, split_records = [], {}, []
+    frames, quote_frames, ticker_quality, split_records = [], [], {}, []
     addon_cols = {}
     base_cols = None
     for ticker, sector in TICKERS_SECTORS.items():
         p, tq = read_prices(raw / f"{ticker}.csv", calendar)
+        if tq["invalid_observed_ohlc"]:
+            # Do not let a corrupted future CLOSE erase an otherwise available
+            # OPEN and silently change which orders a backtest can execute.
+            raise ValueError(f"{ticker}: invalid observed OHLC requires source repair")
         p, adjustments = adjust_confirmed_splits(p, ticker)
+        quote_frames.append(p[["OPEN", "CLOSE", "VOLUME", "VALUE"]].reset_index().assign(ticker=ticker))
         split_records.extend(adjustments)
-        daily_return = p.CLOSE.pct_change(fill_method=None)
+        daily_return = p.CLOSE.dropna().pct_change(fill_method=None).reindex(calendar)
         large = daily_return.abs() > .70
         tq["unexplained_abs_daily_return_gt70pct"] = [
             {"date": str(date.date()), "return": float(daily_return.loc[date])}
             for date in p.index[large]]
+        if large.any():
+            raise ValueError(f"{ticker}: unverified >70% observed price jump across sessions")
         for name in OHLC + ["WAPRICE"]:
             p[f"ADJ_{name}"] = p[name]
         f = calculate_features(p.reset_index(), imoex_ret=market_returns, rvi=rvi).set_index("TRADEDATE")
@@ -248,6 +250,8 @@ def main():
         "seconds": time.perf_counter() - t0,
     }
     panel.to_parquet(HERE / "panel.parquet", index=False)
+    pd.concat(quote_frames, ignore_index=True).to_parquet(HERE / "quotes.parquet", index=False)
+    pd.DataFrame({"TRADEDATE": calendar}).to_parquet(HERE / "calendar.parquet", index=False)
     (HERE / "feature_sets.json").write_text(json.dumps(feature_sets, indent=2))
     (HERE / "quality.json").write_text(json.dumps(quality, indent=2))
     print(json.dumps({k:quality[k] for k in ["panel_rows", "complete_label_rows", "date_start", "date_end", "seconds"]}), flush=True)

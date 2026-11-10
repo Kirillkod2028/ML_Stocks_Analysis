@@ -15,7 +15,7 @@ def refit_predictions(data: pd.DataFrame, features: list[str], policy: str):
         test = data.loc[(data.TRADEDATE >= lo) & (data.TRADEDATE < hi)].copy()
         for month, te in test.groupby(test.TRADEDATE.dt.to_period("M")):
             start = te.TRADEDATE.min()
-            tr = data.loc[data.label_end < start]
+            tr = data.loc[(data.label_end < start) & data.complete_labels]
             if policy == "rolling_2y":
                 tr = tr.loc[tr.TRADEDATE >= start - pd.DateOffset(years=2)]
             if tr.TRADEDATE.nunique() < 180:
@@ -35,8 +35,7 @@ def refit_predictions(data: pd.DataFrame, features: list[str], policy: str):
 def run():
     panel = pd.read_parquet(HERE / "panel.parquet")
     features = __import__("json").loads((HERE / "feature_sets.json").read_text())["base"]
-    dev = panel.loc[(panel.TRADEDATE < HOLD) & (panel.label_end < HOLD)
-                    & panel.complete_labels].copy()
+    dev = panel.loc[(panel.TRADEDATE < HOLD) & (panel.label_end < HOLD)].copy()
     previous = pd.read_parquet(HERE / "development_predictions.parquet")
     previous = previous.loc[(previous.universe == "base_full")
                             & (previous.features == "base")].copy()
@@ -53,6 +52,7 @@ def run():
     assert all(keys == keysets[0] for keys in keysets[1:])
     assert all_preds.TRADEDATE.max() < HOLD
     all_preds.to_parquet(HERE / "refit_development_predictions.parquet", index=False)
+    all_preds.to_parquet(HERE / "asof_development_predictions.parquet", index=False)
     rows, daily = [], {}
     for policy, part in all_preds.groupby("policy"):
         d = daily_scores(part)
